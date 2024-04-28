@@ -8,9 +8,14 @@ app.use(cors());
 const db = require("./models");
 
 //ROUTERS
-const usersRouter = require('./routes/Users.routes')
-app.use("/users", usersRouter)
-
+const usersRouter = require('./routes/UsersRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
+const categoryRoutes =  require('./routes/categoriesRoutes');
+const SubcategoryRoutes =  require('./routes/subcategoriesRoutes');
+app.use("/users", usersRouter);
+app.use('/api', serviceRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/subcategories', SubcategoryRoutes);
 db.sequelize.sync().then(() => {
 app.listen(3001, () => {
     console.log("server running");

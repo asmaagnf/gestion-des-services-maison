@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flexColStart f-left">
           <img src="./logo2.png" alt="" width={120} />
           <span className="secondaryText">
-          © 2024
+          © Maroc 2024
           </span>
         </div>
 

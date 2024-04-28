@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you use React Router for navigation
 import { PuffLoader } from "react-spinners";
 import { getCategoryData, getSubcategoryData } from '../../utils/api'; // Functions to fetch data from API
-import './categories.css';
+import '../../components/Categories/Categories.css';
+import { MdArrowRightAlt } from "react-icons/md";
+import { FcLeftDown2 } from "react-icons/fc";
 
-const Categories = () => {
+const Category = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,10 +50,11 @@ const Categories = () => {
   }
 
   return (
-    <div className="paddings ">
+    <div className="wrapper paddings ">
       <ul className="flexCenter c-container">
         {categories.map(category => (
-          <li className="flexCenter c-container"  key={category.id}>
+          <li className=" c-container"  key={category.id}>
+           <FcLeftDown2 />
             <Link className='primaryText' to={`/services?category=${category.id}`}>
               {category.name}
             </Link>
@@ -60,6 +63,7 @@ const Categories = () => {
                 .filter(subcategory => subcategory.CategoryId === category.id)
                 .map(subcategory => (
                   <li key={subcategory.id}>
+                    <MdArrowRightAlt />
                     <Link to={`/services/subcategory/${subcategory.id}`}>
                       {subcategory.name}
                     </Link>
@@ -72,5 +76,4 @@ const Categories = () => {
     </div>
   );
 };
-
-export default Categories;
+export default Category;

@@ -4,9 +4,14 @@ import './Services.css';
 import useServices from '../../hooks/useServices';
 import { PuffLoader } from "react-spinners";
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
+import { getSubcatServices  } from '../../utils/api';
+import { useQuery } from 'react-query';
+import { useLocation } from 'react-router-dom';
 
-const Services = () => {
-  const {data, isError, isLoading} = useServices()
+const Servicesbysubcat = () => {
+  const { pathname } = useLocation();
+  const subcategoryId = pathname.split("/").slice(-1)[0];
+  const { data, isLoading, isError } = useQuery(["servSubcat", subcategoryId], () => getSubcatServices(subcategoryId));
   if (isError) {
     return (
       <div className="wrapper">
@@ -42,4 +47,4 @@ const Services = () => {
   )
 }
 
-export default Services
+export default Servicesbysubcat

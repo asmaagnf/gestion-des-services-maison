@@ -1,14 +1,39 @@
 import React from "react";
-import data from "../../utils/slider.json";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "./Services.css";
 import { sliderSettings } from "../../utils/common";
 import ServiceCard from "../ServiceCard/ServiceCard";
+import {PuffLoader} from 'react-spinners';
+import useServices from "../../hooks/useServices";
+
 const Services = () => {
+  const {data, isError, isLoading} = useServices()
+
+  if(isError){
+    return(
+      <div className='wrapper'>
+        <span>Error while fetching data</span>
+      </div>
+    )
+  }
+
+  if(isLoading){
+    return(
+      <div className="wrapper flexCenter" style={{height: "60vh"}}>
+        <PuffLoader
+        height="80"
+        width="80"
+        radius={1}
+        color="#4066ff"
+        aria-label="puff-loading"
+        />
+      </div>
+    )
+  }
   return (
-    <div id="residencies" className="r-wrapper">
+    <div id="services" className="r-wrapper">
       <div className="paddings innerWidth r-container">
         <div className="flexColStart r-head">
           <span className="orangeText">Meilleurs choix</span>
@@ -17,7 +42,7 @@ const Services = () => {
         <Swiper {...sliderSettings}>
           <SlideNextButton />
           {/* slider */}
-          {data.map((card, i) => (
+          {data.slice(0, 8).map((card, i) => (
             <SwiperSlide key={i}>
              <ServiceCard card={card}/>
             </SwiperSlide>

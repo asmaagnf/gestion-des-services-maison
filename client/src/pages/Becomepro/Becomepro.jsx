@@ -1,8 +1,8 @@
 import React from 'react';
-
 import { useState } from 'react';
-
+import { Link  } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import '../Register/Register.css'; 
 
@@ -23,7 +23,8 @@ const Becomepro = () => {
       });
 
       console.log('Registration successful:', response.data);
-      // Optionally, you can handle successful registration here, e.g., show a success message or redirect to a new page
+      toast.success(response.data);
+    
     } catch (error) {
       console.error('Error registering user:', error);
       setError('Error registering user. Please try again.'); // Set error message
@@ -32,7 +33,7 @@ const Becomepro = () => {
 
   return (
     <div className="form-container">
-      <h2 className='primaryText'> inscription du prestataire</h2>
+      <h2 className='primaryText'> s'inscrice comme prestataire</h2>
       {error && <div className="error">{error}</div>} {/* Display error message if there's an error */}
       <form onSubmit={handleSubmit}>
         <label>
@@ -49,7 +50,14 @@ const Becomepro = () => {
         </label>
         <button type="submit" className='button'>Register</button>
       </form>
+      <span>
+      Vous avez déjà un compte?&nbsp;
+        <Link to="/login" className='linktext'>
+              se connecter
+            </Link>
+        </span>
     </div>
+    
   );
 };
 

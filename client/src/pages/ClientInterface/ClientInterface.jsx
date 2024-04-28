@@ -1,17 +1,25 @@
+
 import React, { useState } from "react";
-import "./Header.css";
+import "../../components/Header/Header.css";
 import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../../utils/common";
 import useHeaderColor from "../../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
-const Header = () => {
+const ClientInterface = () => {
+  const navigate = useNavigate();
   const [menuOpened, setMenuOpened] = useState(false);
   const headerColor = useHeaderColor();
-
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login", { replace: true });
+  };
+  
   return (
-    <section className="h-wrapper" style={{ background: headerColor }}>
+    
+   
+    <section className="h-wrapper" style={{ background: 'black' }}>
       <div className="flexCenter innerWidth paddings h-container">
         {/* logo */}
         <Link to="/">
@@ -28,14 +36,13 @@ const Header = () => {
             className="flexCenter h-menu"
             style={getMenuStyles(menuOpened)}
           >
-             <a href="mailto:asmaegandaffa@gmail.com">Contact</a>
-             <NavLink to="/services">Services</NavLink>
-             <NavLink to="/pro">devenir pro</NavLink>
-             <NavLink to="/login">se connecter</NavLink>
-            {/* login button */}
-            <NavLink to="/register"><button className="button" >
-            s'inscrire
-             </button></NavLink>
+            <NavLink to="/allservices">Services</NavLink>
+            <button
+            className="button"
+            onClick={handleLogout}
+          >
+            Se déconnecter
+          </button>
           </div>
         </OutsideClickHandler>
 
@@ -47,8 +54,11 @@ const Header = () => {
           <BiMenuAltRight size={30} />
         </div>
       </div>
-    </section>
+  
+          </section>
   );
 };
 
-export default Header;
+export default ClientInterface
+
+

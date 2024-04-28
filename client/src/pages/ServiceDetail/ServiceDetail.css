@@ -1,0 +1,37 @@
+.service-container{
+    gap: 2rem;
+    position: relative;
+}
+
+
+.service-container>img{
+    border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 30%;
+}
+
+.service-details{
+    width: 100%;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.service-details>div{
+    flex: 1;
+    gap: 1.5rem;
+}
+
+.service-details .left .head{
+    justify-content: space-between;
+    width: 100%;
+    line-height: 30px;
+}
+.service-details .button{
+
+    margin-top: 1rem;
+    }
+
+.service-details .button:hover{
+    transform: scale(1.05);
+}

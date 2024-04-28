@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const { users } = require("../models");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+
 
   // Create user account with provided details and role 'client'
 router.post('/', async (req, res) => {
@@ -68,7 +70,7 @@ router.get('/:id', async (req, res) => {
 // Update user by ID
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { username, email, role } = req.body;
+  const { username, email, role, image } = req.body;
 
   try {
     // Find user by ID
@@ -81,6 +83,7 @@ router.put('/:id', async (req, res) => {
     user.username = username;
     user.email = email;
     user.role = role;
+    user.image = image;
 
     // Save updated user
     await user.save();
@@ -117,26 +120,38 @@ router.delete('/:id', async (req, res) => {
 
 
 
+//login route
 
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
 
-  router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
+  try {
       // Find user by email
-      const User = await users.findOne({ where: { email } });
-      if (!User) {
-        return res.json({ error: "User not found" });
+      const user = await users.findOne({ where: { email } });
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
       }
-  
+
       // Compare passwords
-      const match = await bcrypt.compare(password, User.password);
+      const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.json({ error: "Invalid password" });
+          return res.status(401).json({ error: "Invalid password" });
       }
-  
-      // User authenticated, return user data (you may want to exclude password)
-      res.json("logged in");
-    
-  });
+
+      // User authenticated, generate JWT token
+      const payload = {
+          id: user.id,
+          email: user.email,
+          role: user.role
+      };
+      const token = jwt.sign(payload, process.env.JWT_SECRET);
+
+      res.json({ token, id: user.id });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Server error" });
+  }
+});
+
 
   module.exports = router;
