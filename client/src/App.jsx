@@ -20,7 +20,6 @@ import AddService from './pages/addservice/addservice';
 import { jwtDecode } from "jwt-decode";
 import Servicesbysubcat from "./pages/Services/Servicesbysubcat";
 import Category from "./pages/Category/Category";
-import DachLayout from "./components/DachLayout/DachLayout";
 
 
 function App() {
