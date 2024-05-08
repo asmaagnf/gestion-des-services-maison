@@ -70,3 +70,12 @@ export const getSubcatServices = async (subcategoryId) => {
     throw error;
   }
 };
+export const fetchUserServicesCount = async (userId) => {
+  try {
+      const response = await api.get(`/user/services/count/${userId}`);
+      return response.data.count;
+  } catch (error) {
+      console.error('Error fetching user services count:', error);
+      throw new Error('Failed to fetch user services count');
+  }
+};

@@ -1,0 +1,26 @@
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #007bff; /* Blue background color */
+    color: white; /* Text color */
+  }
+  
+  .user-table th, .user-table td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-table th {
+    background-color: #0056b3; /* Darker blue for header */
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: #0056b3; /* Darker blue for even rows */
+  }
+  
+  .user-table tr:hover {
+    background-color: #003f7f; /* Darker blue for hover effect */
+  }
+  

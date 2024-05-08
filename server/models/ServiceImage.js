@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     });
-
+    ServiceImage.associate = (models) => {
+        ServiceImage.belongsTo(models.Service); // Define the association to Service
+    };
    
 
     return ServiceImage;

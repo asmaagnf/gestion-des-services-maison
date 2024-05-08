@@ -16,6 +16,67 @@
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
+/* Regular CSS equivalent of Tailwind CSS classes */
+
+/* For the parent container */
+.flex {
+  display: flex;
+}
+
+
+.margin-R {
+  margin-right: 30px;
+
+}
+
+
+
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.bg-purple-500 {
+  background-color: #805ad5;
+}
+.h-24 {
+  height: 40px;
+}
+.w-24 {
+  width: 40px;
+}
+.rounded-full {
+  border-radius: 100%;
+}
+.relative {
+  position: relative;
+}
+.text-5xl {
+  font-size: 2rem;
+}
+.text-white {
+  color: #fff;
+}
+
+/* For the individual items */
+.hover\:shadow-xl:hover {
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.2), 0 16px 40px -8px rgba(0, 0, 0, 0.1);
+}
+.transition-all {
+  transition-property: all;
+  transition-duration: 0.3s;
+}
+.duration-300 {
+  transition-duration: 0.3s;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .wrapper {
   background-color: white;
 }

@@ -20,7 +20,9 @@ import AddService from './pages/addservice/addservice';
 import { jwtDecode } from "jwt-decode";
 import Servicesbysubcat from "./pages/Services/Servicesbysubcat";
 import Category from "./pages/Category/Category";
-import DachLayout from "./components/DachLayout/DachLayout";
+import Dashlayout from "./pages/ProInterface/Dashlayout";
+import Servicebyuserid from "./pages/Services/Servicebyuserid";
+import UpdateService from "./pages/updateservice/Updateservice";
 
 
 function App() {
@@ -71,7 +73,11 @@ function App() {
           </Route>
           <Route path="/services/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
       </Route>
-   
+
+
+
+
+    <Route  element={<Dashlayout/>}>
    <Route
   path="/pro-interface"
   element={
@@ -82,9 +88,22 @@ function App() {
     />
   }
 >
- 
 </Route>
-<Route path="/pro-interface/addservice" element={<AddService />} />
+<Route path="/pro-interface/Ajouter-Service" element={<AddService />} />
+<Route path="/pro/service/Modifier-Service/:serviceId" element={<UpdateService/>} />
+
+<Route path="/pro/service"  >
+             <Route index element={<Servicebyuserid/>} />
+             <Route path=":serviceId" element={<ServiceDetail />} />
+             
+          </Route>
+</Route>
+
+
+
+
+
+
 
       <Route
         path="/admin-interface"

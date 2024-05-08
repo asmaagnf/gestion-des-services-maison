@@ -1,0 +1,84 @@
+
+.Container {
+    display: flex;
+    margin-top: 20px;
+    padding: 0 32px;
+    gap: 5px;
+   
+  
+    
+  }
+  .interface {
+   min-height: 100vh;
+  
+    
+  }
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 12rem;
+    width: 12rem;
+  }
+  
+  .card__avatar {
+    background-color: #6f42c1;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .card__avatar span {
+    font-size: 3rem;
+    color: white;
+  }
+  
+  .card__content {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .card__username {
+    font-size: 1.2rem;
+    
+  }
+  
+  .card__divider {
+    border-top: 1px solid #ccc;
+    margin-top: 1rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+ 
+  }
+  
+  .grid__item {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    cursor: pointer;
+  }
+  
+  .grid__item:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .grid__title {
+    font-size: 1.2rem;
+  }
+  
+  .grid__count {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
