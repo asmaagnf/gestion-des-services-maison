@@ -23,6 +23,10 @@ import Category from "./pages/Category/Category";
 import Dashlayout from "./pages/ProInterface/Dashlayout";
 import Servicebyuserid from "./pages/Services/Servicebyuserid";
 import UpdateService from "./pages/updateservice/Updateservice";
+import Reclamations from "../src/components/Reclamations/ReclamationsAdmin"; 
+import Listeservices from "../src/pages/Listeservices/Listeservices"
+import ClientdachLayout from "./pages/ClientInterface/ClientdachLayout";
+import Categorie from "./pages/Categorie/Categorie";
 
 
 function App() {
@@ -39,6 +43,7 @@ function App() {
   };
   return (
     <QueryClientProvider client={queryClient}>
+     
     <BrowserRouter>
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -52,10 +57,13 @@ function App() {
           <Route path="/register"  element={<Register/>}/>
           <Route path="/pro" element={<Becomepro/>} />
           <Route path="/login" element={<LoginPage/>} />
+          <Route path="/services/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
           </Route>
           
           <Route path="/404" element={<Page404 />} />
-          <Route >
+
+
+<Route element={<ClientdachLayout/>}>
           <Route
         path="/client-interface"
         element={
@@ -71,56 +79,57 @@ function App() {
              <Route index element={<Services/>} />
              <Route path=":serviceId" element={<ServiceDetail />} />
           </Route>
-          <Route path="/services/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
-      </Route>
+          <Route path="/allservices/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
+ </Route>
 
 
 
 
-    <Route  element={<Dashlayout/>}>
-   <Route
+<Route  element={<Dashlayout/>}>
+  <Route
   path="/pro-interface"
   element={
     <ProtectedRoute
       element={<ProInterface />}
       requiredRole="pro"
-      redirectTo="/404"
-    />
-  }
->
-</Route>
-<Route path="/pro-interface/Ajouter-Service" element={<AddService />} />
-<Route path="/pro/service/Modifier-Service/:serviceId" element={<UpdateService/>} />
-
-<Route path="/pro/service"  >
+      redirectTo="/404" 
+    />}>
+   </Route>
+   <Route path="/pro-interface/Ajouter-Service" element={<AddService />} />
+   <Route path="/pro/service/Modifier-Service/:serviceId" element={<UpdateService/>} />
+   <Route path="/pro/service"  >
              <Route index element={<Servicebyuserid/>} />
              <Route path=":serviceId" element={<ServiceDetail />} />
              
-          </Route>
+   </Route>
 </Route>
 
 
-
-
-
-
-
-      <Route
+<Route>
+  <Route
         path="/admin-interface"
         element={
           <ProtectedRoute
             element={<AdminInterface />}
             requiredRole="admin"
-            redirectTo="/404"
+            redirectTo="/404"    
           />
         }
-      />
+      /> 
+<Route path="/admin-interface/reclamations" element={<Reclamations/>} />
+<Route path="/admin-interface/listeservices" element={<Listeservices/>} />
+<Route path="/admin-interface/Categorie" element={<Categorie/>} />
+
+</Route>
+
           <Route path="*" element={<Navigate to="/404" />} />
+  
       </Routes>
     </Suspense>
   </BrowserRouter>
   <ToastContainer />
   <ReactQueryDevtools initialIsOpen={false} />
+ 
   </QueryClientProvider>
   );
 }

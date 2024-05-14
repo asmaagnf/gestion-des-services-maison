@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import './Services.css';
-import useServices from '../../hooks/useServices';
 import { PuffLoader } from "react-spinners";
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
 import { getSubcatServices  } from '../../utils/api';
@@ -12,6 +11,8 @@ const Servicesbysubcat = () => {
   const { pathname } = useLocation();
   const subcategoryId = pathname.split("/").slice(-1)[0];
   const { data, isLoading, isError } = useQuery(["servSubcat", subcategoryId], () => getSubcatServices(subcategoryId));
+  const [filter, setFilter] = useState("");
+
   if (isError) {
     return (
       <div className="wrapper">
@@ -36,10 +37,17 @@ const Servicesbysubcat = () => {
   return (
     <div className='wrapper'>
       <div className="flexColCenter paddings innerWidth service-container">
-        <SearchBar/>
+      <SearchBar filter={filter} setFilter={setFilter} />
         <div className="paddings flexCenter services">
-          {
-            data.map((card, i)=> (<ServiceCard card={card} key={i}/>))
+           { 
+           data.filter(
+                (service) =>
+                  service.title.toLowerCase().includes(filter.toLowerCase()) ||
+                  service.location.toLowerCase().includes(filter.toLowerCase())
+              )
+              .map((card, i) => (
+                <ServiceCard  card={card} key={i} />
+              ))
           }
         </div>
       </div>

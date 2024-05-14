@@ -63,7 +63,7 @@ const LoginPage = () => {
         <h2 className="primaryText">se connecter</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email:</label>
+            <label>Email :</label>
             <input
               type="email"
               value={email}
@@ -75,7 +75,7 @@ const LoginPage = () => {
  
           </div>
           <div className="form-group">
-            <label>Mot de passe:</label>
+            <label>Mot de passe :</label>
             <input
               type="password"
               value={password}

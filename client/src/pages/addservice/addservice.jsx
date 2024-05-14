@@ -60,24 +60,21 @@ const AddService = () => {
           Authorization: `Bearer ${token}`
           }
       };
-      console.log(image);
-      console.log(images);
       const response = await axios.post('http://localhost:3001/api/services', formData, config);
 
       console.log('Service created:', response.data);
       navigate("/pro/service");
     } catch (error) {
-      
       setError(error.response.data.error || 'Failed to create service');
     }
   };
 
   return (
     <div className="form-container">
-      <h2 className="form-heading">Créer un service</h2>
+      <h2 className="form-heading primaryText">Créer un service</h2>
       <form onSubmit={handleSubmit} encType='multipart/form-data' method='POST'>
         <div>
-          <label className="form-label">Titre:</label>
+          <label className="form-label">Titre* :</label>
           <input
             type="text"
             value={title}
@@ -87,7 +84,7 @@ const AddService = () => {
           />
         </div>
         <div>
-          <label className="form-label">Description de votre service :</label>
+          <label className="form-label">Description de votre service* :</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -96,7 +93,7 @@ const AddService = () => {
           />
         </div>
         <div>
-          <label className="form-label">Votre adresse / Business address:</label>
+          <label className="form-label">Votre adresse / Business address* :</label>
           <input
             type="text"
             value={location}
@@ -105,7 +102,7 @@ const AddService = () => {
           />
         </div>
         <div>
-          <label className="form-label">Vos années d'expérience :</label>
+          <label className="form-label">Vos années d'expérience* :</label>
           <input
             type="number"
             value={yearsOfExperience}
@@ -114,7 +111,7 @@ const AddService = () => {
           />
         </div>
         <div>
-          <label className="form-label">Photo:</label>
+          <label className="form-label">Photo* :</label>
           <input
             type="file"
             name="image"
@@ -124,7 +121,7 @@ const AddService = () => {
         </div>
 
         <div>
-          <label className="form-label">Sélectionnez la catégorie de vos services :</label>
+          <label className="form-label">Sélectionnez la catégorie de vos services* :</label>
           <select value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)} className="form-select">
             <option value="">Catégorie</option>
             {subcategories.map(subcategory => (
@@ -133,7 +130,7 @@ const AddService = () => {
           </select>
         </div>
         <div>
-          <label className="form-label">Des photos sur votre service :</label>
+          <label className="form-label">Des photos sur votre service* :</label>
           <input
             type="file"
             name="images"

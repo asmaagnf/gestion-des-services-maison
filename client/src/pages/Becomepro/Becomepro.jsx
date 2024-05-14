@@ -33,19 +33,19 @@ const Becomepro = () => {
 
   return (
     <div className="form-container">
-      <h2 className='primaryText'> s'inscrice comme prestataire</h2>
+      <h2 className='primaryText'> S'inscrice comme prestataire</h2>
       {error && <div className="error">{error}</div>} {/* Display error message if there's an error */}
       <form onSubmit={handleSubmit}>
         <label>
-          Username:
+          Username* :
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         </label>
         <label>
-          Email:
+          Email* :
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </label>
         <label>
-          Password:
+          Password* :
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </label>
         <button type="submit" className='button'>Register</button>

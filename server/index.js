@@ -12,10 +12,15 @@ const usersRouter = require('./routes/UsersRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const categoryRoutes =  require('./routes/categoriesRoutes');
 const SubcategoryRoutes =  require('./routes/subcategoriesRoutes');
+const reclamationRoutes = require('./routes/reclamationRoutes'); 
+// modifierici
+app.use("/api/users", usersRouter);
+
 app.use("/users", usersRouter);
 app.use('/api', serviceRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', SubcategoryRoutes);
+app.use('/api/reclamations', reclamationRoutes); 
 db.sequelize.sync().then(() => {
 app.listen(3001, () => {
     console.log("server running");

@@ -6,17 +6,27 @@ const {validateToken} = require('../Middleware/authMiddleware');
 const multer = require('multer');
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/'); // Directory where uploaded files will be stored
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname); // Unique filename for each uploaded file
-    }
-  });
-  const upload = multer({ storage: storage });
-  
+const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directory where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Unique filename for each uploaded file
+  }
+});
+
+// Validate MIME type
+const fileFilter = (req, file, cb) => {
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Type de fichier invalide. Seuls les fichiers JPEG, PNG et JPG sont autorisés.'));
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
   // Route for creating a new service with image upload
   router.post('/services', validateToken,  upload.fields([
@@ -168,17 +178,18 @@ router.put('/services/:id', validateToken, upload.fields([
 
 //delete a service
 router.delete('/services/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const service = await Service.findByPk(id);
-        if (!service) {
-            return res.status(404).json({ error: 'Service not found' });
-        }
-        await service.destroy();
-        res.json({ message: 'Service deleted successfully' });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+  const { id } = req.params;
+
+  try {
+      const deletedService = await Service.destroy({ where: { id } });
+      if (deletedService === 0) {
+          return res.status(404).json({ message: 'service not found' });
+      }
+      res.json({ message: 'service deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting service:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 

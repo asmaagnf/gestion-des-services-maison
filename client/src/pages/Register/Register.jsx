@@ -22,29 +22,29 @@ const Register = () => {
       });
 
       console.log('Registration successful:', response.data);
-      toast.success(response.data);
+      toast.success("Votre inscription a été complétée avec succès !");
      
     } catch (error) {
       console.error('Error registering user:', error);
-      setError('Error registering user. Please try again.'); // Set error message
+      setError('Erreur lsors de l enregistrement. Veuillez réessayer.'); // Set error message
     }
   };
 
   return (
     <div className="form-container">
-      <h2 className='primaryText'>s'inscrire</h2>
+      <h2 className='primaryText'>S'inscrire</h2>
       {error && <div className="error">{error}</div>} {/* Display error message if there's an error */}
       <form onSubmit={handleSubmit}>
         <label>
-        Nom d'utilisateur:
+        Nom d'utilisateur* :
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         </label>
         <label>
-          Email:
+          Email* :
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </label>
         <label>
-        Mot de passe:
+        Mot de passe* :
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </label>
         <button type="submit" className='button'>Register</button>

@@ -10,9 +10,12 @@ const Category = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(() => {
-    // Fetch categories data
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  
     getCategoryData()
       .then(data => {
         setCategories(data);
@@ -51,7 +54,7 @@ const Category = () => {
 
   return (
     <div className="wrapper paddings ">
-      <ul className="flexCenter c-container">
+      <ul className="grid c-container">
         {categories.map(category => (
           <li className=" c-container"  key={category.id}>
            <FcLeftDown2 />
@@ -64,9 +67,13 @@ const Category = () => {
                 .map(subcategory => (
                   <li key={subcategory.id}>
                     <MdArrowRightAlt />
-                    <Link to={`/services/subcategory/${subcategory.id}`}>
+                    {isLoggedIn ? (
+                    <Link to={`/allservices/subcategory/${subcategory.id}`}>
                       {subcategory.name}
                     </Link>
+                     ) : (
+                     <Link to={`/services/subcategory/${subcategory.id}`}> {subcategory.name} </Link>
+                     )}
                   </li>
                 ))}
             </ul>

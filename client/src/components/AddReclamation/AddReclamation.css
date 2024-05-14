@@ -1,0 +1,23 @@
+.recform-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+  
+  .recinput-field,
+  .rectextarea-field {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .rectextarea-field {
+    resize: vertical;
+    min-height: 30px;
+  }
+  
+ 

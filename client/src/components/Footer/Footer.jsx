@@ -1,5 +1,7 @@
 import React from "react";
 import "./Footer.css";
+import AddReclamation from "../AddReclamation/AddReclamation";
+
 const Footer = () => {
   return (
     <div className="f-wrapper">
@@ -9,9 +11,13 @@ const Footer = () => {
           <img src="./logo2.png" alt="" width={120} />
           <span className="secondaryText">
           © Maroc 2024
+        
           </span>
+         
         </div>
-
+        
+        <AddReclamation/>
+       
         <div className="flexColStart f-right">
           <span className="primaryText">Information</span>
           <span className="secondaryText">145 Casablanca, Maroc</span>
@@ -22,7 +28,8 @@ const Footer = () => {
             <span>About Us</span>
           </div>
         </div>
-      </div>
+      
+        </div>
     </div>
   );
 };

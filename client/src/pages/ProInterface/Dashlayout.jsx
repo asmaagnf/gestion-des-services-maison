@@ -3,7 +3,6 @@ import React, { useState,useEffect } from "react";
 import "../../components/Header/Header.css";
 import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../../utils/common";
-import useHeaderColor from "../../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
@@ -15,10 +14,10 @@ const Dashlayout = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [menuOpened, setMenuOpened] = useState(false);
-  const headerColor = useHeaderColor();
+
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -43,7 +42,7 @@ const Dashlayout = () => {
       <div className="flexCenter innerWidth paddings h-container">
         {/* logo */}
         <Link to="/">
-        <img src="./logo.png" alt="logo" width={100} />
+        <img src="../../public/logo.png" alt="logo" width={100} />
         </Link>
         {/* menu */}
         <OutsideClickHandler
@@ -56,20 +55,26 @@ const Dashlayout = () => {
             className="flexCenter h-menu"
             style={getMenuStyles(menuOpened)}
           >
-            <NavLink to="/pro-interface/Ajouter-Service">ajouter un service</NavLink>
+            <NavLink to="/pro-interface/Ajouter-Service">Ajouter un service</NavLink>
+            <NavLink to="/pro-interface/requests">Gérer les demandes</NavLink>
+            <NavLink to="/pro-interface/chat">Chat</NavLink>
             <button
             className="button"
             onClick={handleLogout}
           >
             Se déconnecter
           </button>
+         <NavLink to="/pro-interface">  {/*  //modifierici hna kent bghit n9at hadik dowara li fiha tsswira ta3 lprofile */}
+
           {userInfo && (
                   <div className="bg-purple-500 h-24 w-24 flex items-center justify-center rounded-full relative">
                     <span className="text-5xl text-white">
                     {userInfo.email[0].toUpperCase()}
                     </span>
                   </div> )}
+                  </NavLink>
           </div>
+          
           
         </OutsideClickHandler>
       

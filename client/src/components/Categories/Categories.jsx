@@ -8,8 +8,11 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
 
   useEffect(() => {
+  
+
     // Fetch categories data
     getCategoryData()
       .then(data => {
@@ -48,10 +51,10 @@ const Categories = () => {
   }
 
   return (
-    <div className="paddings ">
-      <ul className="flexCenter c-container">
+    <div className="paddings cat-container">
+      <ul className="grid c-container">
         {categories.map(category => (
-          <li className="flexCenter c-container"  key={category.id}>
+          <li className=" c-container"  key={category.id}>
             <Link className='primaryText' to={`/services?category=${category.id}`}>
               {category.name}
             </Link>
@@ -60,9 +63,11 @@ const Categories = () => {
                 .filter(subcategory => subcategory.CategoryId === category.id)
                 .map(subcategory => (
                   <li key={subcategory.id}>
+                 
                     <Link to={`/services/subcategory/${subcategory.id}`}>
                       {subcategory.name}
                     </Link>
+                  
                   </li>
                 ))}
             </ul>
