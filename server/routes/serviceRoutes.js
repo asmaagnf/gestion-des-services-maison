@@ -126,7 +126,6 @@ router.get('/services/subcat/:subcategoryId', async (req, res) => {
 
 
 
-
 //update service
 router.put('/services/:id', validateToken, upload.fields([
   { name: 'image', maxCount: 1 },
@@ -138,7 +137,7 @@ router.put('/services/:id', validateToken, upload.fields([
     if (!service) {
       return res.status(404).json({ error: 'Service not found' });
     }
-    const { title, description, location, yearsOfExperience, SubcategoryId } = req.body;
+    const { title, description, location, yearsOfExperience, SubcategoryId, updateImages } = req.body;
     let mainImagePath = service.image; // Use existing image path by default
 
     // Check if a new main image was uploaded
@@ -146,8 +145,15 @@ router.put('/services/:id', validateToken, upload.fields([
       mainImagePath = req.files['image'][0].path;
     }
 
-    // Process additional images
-    const images = req.files['images'] ? req.files['images'].map(file => ({ imageUrl: file.path })) : [];
+    // Process additional images if updateImages is true
+    let images = [];
+    if (updateImages === 'true') {
+      if (req.files['images'] && req.files['images'].length > 0) {
+        images = req.files['images'].map(file => ({ imageUrl: file.path }));
+        await ServiceImage.destroy({ where: { ServiceId: id } }); // Delete existing images
+        await ServiceImage.bulkCreate(images.map(image => ({ ...image, ServiceId: id }))); // Create new images
+      }
+    }
 
     // Update service details
     await service.update({
@@ -158,10 +164,6 @@ router.put('/services/:id', validateToken, upload.fields([
       image: mainImagePath,
       SubcategoryId,
     });
-
-    // Update associated service images
-    await ServiceImage.destroy({ where: { ServiceId: id } }); // Delete existing images
-    await ServiceImage.bulkCreate(images.map(image => ({ ...image, ServiceId: id }))); // Create new images
 
     res.json(service);
   } catch (error) {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../addservice/addservice.css'; // Import your CSS file
-import {  useLocation, useNavigate} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getService } from '../../utils/api';
 
 const UpdateService = () => {
-    let { serviceId } = useParams();
+  const { serviceId } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState(null);
   const [title, setTitle] = useState('');
@@ -17,10 +17,12 @@ const UpdateService = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
   const [error, setError] = useState('');
+  const [updateImages, setUpdateImages] = useState(false); // New state for tracking image update
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setImages(files);
+    setUpdateImages(true); // Set updateImages to true when new images are selected
   };
 
   const handleSubmit = async (e) => {
@@ -36,13 +38,17 @@ const UpdateService = () => {
       formData.append('yearsOfExperience', yearsOfExperience);
       formData.append('SubcategoryId', selectedSubcategory);
       formData.append('userId', service.userId); // Include userId in formData for validation
+      formData.append('updateImages', updateImages); // Append updateImages flag
+
       if (image) {
         formData.append('image', image);
       }
 
-      images.forEach((image) => {
-        formData.append('images', image);
-      });
+      if (updateImages) {
+        images.forEach((image) => {
+          formData.append('images', image);
+        });
+      }
 
       const config = {
         headers: {
@@ -51,30 +57,33 @@ const UpdateService = () => {
         },
       };
 
-      const response = await axios.put(`http://localhost:3001/api/services/${serviceId}`, formData, config); // Use "serviceId" instead of "id"
+      const response = await axios.put(`http://localhost:3001/api/services/${serviceId}`, formData, config);
       console.log('Service updated:', response.data);
       navigate(`/pro/service/${serviceId}`);
     } catch (error) {
-      setError(error.response.data.error || 'Failed to update service');
+      setError(error.response?.data?.error || 'Failed to update service');
     }
   };
 
-    useEffect(() => {
-        const fetchService = async () => {
-          try {
-            const fetchedService = await getService(serviceId);
-            setService(fetchedService);
-            setTitle(fetchedService.title);
-            setDescription(fetchedService.description);
-            setLocation(fetchedService.location);
-            setYearsOfExperience(fetchedService.yearsOfExperience);
-            setSelectedSubcategory(fetchedService.SubcategoryId);
-          } catch (error) {
-            setError('Failed to fetch service');
-          }
-        };
+  useEffect(() => {
+    const fetchService = async () => {
+      try {
+        const fetchedService = await getService(serviceId);
+        setService(fetchedService);
+        setTitle(fetchedService.title);
+        setDescription(fetchedService.description);
+        setLocation(fetchedService.location);
+        setYearsOfExperience(fetchedService.yearsOfExperience);
+        setSelectedSubcategory(fetchedService.SubcategoryId);
+        setImages(fetchedService.ServiceImages || []); // Assuming fetchedService.ServiceImages is an array of image URLs
+      } catch (error) {
+        setError('Failed to fetch service');
+      }
+    };
 
-    fetchService();
+    if (serviceId) {
+      fetchService();
+    }
   }, [serviceId]);
 
   useEffect(() => {
@@ -98,7 +107,6 @@ const UpdateService = () => {
     <div className="form-container">
       <h2 className="form-heading">Modifier le service</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data" method="POST">
-        {/* Render form fields with existing data */}
         <div>
           <label className="form-label">Titre:</label>
           <input
@@ -109,10 +117,54 @@ const UpdateService = () => {
             className="form-input"
           />
         </div>
-        {/* Render other form fields similarly */}
+        <div>
+          <label className="form-label">Description:</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            className="form-input"
+          ></textarea>
+        </div>
+        <div>
+          <label className="form-label">Location:</label>
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            required
+            className="form-input"
+          />
+        </div>
+        <div>
+          <label className="form-label">Years of Experience:</label>
+          <input
+            type="number"
+            value={yearsOfExperience}
+            onChange={(e) => setYearsOfExperience(e.target.value)}
+            required
+            className="form-input"
+          />
+        </div>
+        <div>
+          <label className="form-label">Subcategory:</label>
+          <select
+            value={selectedSubcategory}
+            onChange={(e) => setSelectedSubcategory(e.target.value)}
+            required
+            className="form-input"
+          >
+            <option value="">Select Subcategory</option>
+            {subcategories.map((subcategory) => (
+              <option key={subcategory.id} value={subcategory.id}>
+                {subcategory.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <label className="form-label">Photo actuelle:</label>
-          <img src={service.image} alt="Service" className="current-image" />
+          <img src={`http://localhost:3001/${service?.image}`} alt="Service" className="current-image" />
         </div>
         <div>
           <label className="form-label">Nouvelle photo:</label>
@@ -123,7 +175,6 @@ const UpdateService = () => {
             className="form-input"
           />
         </div>
-        {/* Render additional image upload input */}
         <div>
           <label className="form-label">Ajouter d'autres photos:</label>
           <input
@@ -133,7 +184,18 @@ const UpdateService = () => {
             onChange={handleFileChange}
             className="form-input"
           />
+          {images.length > 0 && (
+            <div>
+             <label className="form-label">Current Additional Photos:</label>
+            <div className="selected-images-container">
+              {images.map((img, index) => (
+                <img key={index} src={`http://localhost:3001/${img?.imageUrl}`} alt={`Additional ${index}`} className="preview-image" />
+              ))}
+            </div>
+            </div>
+          )}
         </div>
+        
         <button type="submit" className="button">Mettre à jour le service</button>
       </form>
       {error && <div className="error-message">{error}</div>}

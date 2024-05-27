@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HeaderAdmin from '../HeaderAdmin/HeaderAdmin'
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const ReclamationsAdmin = () => {
   const [reclamations, setReclamations] = useState([]);
@@ -52,7 +53,7 @@ const ReclamationsAdmin = () => {
               <td>{reclamation.userEmail}</td>
               <td>{new Date(reclamation.createdAt).toLocaleDateString()}</td>
               <td className="action-buttons">
-                <button className="supprimer" onClick={() => deleteReclamation(reclamation.id)}>Supprimer</button>
+                <RiDeleteBin5Line className='supprimer'  onClick={() => deleteReclamation(reclamation.id)}/>
               </td>
             </tr>
           ))}

@@ -22,11 +22,12 @@ import Servicesbysubcat from "./pages/Services/Servicesbysubcat";
 import Category from "./pages/Category/Category";
 import Dashlayout from "./pages/ProInterface/Dashlayout";
 import Servicebyuserid from "./pages/Services/Servicebyuserid";
-import UpdateService from "./pages/updateservice/Updateservice";
+import UpdateService from "./pages/updateservice/UpdateService";
 import Reclamations from "../src/components/Reclamations/ReclamationsAdmin"; 
 import Listeservices from "../src/pages/Listeservices/Listeservices"
 import ClientdachLayout from "./pages/ClientInterface/ClientdachLayout";
 import Categorie from "./pages/Categorie/Categorie";
+
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
   };
   return (
     <QueryClientProvider client={queryClient}>
-     
+  
     <BrowserRouter>
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>

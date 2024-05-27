@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'; // Assuming you use React Router for na
 import { PuffLoader } from "react-spinners";
 import { getCategoryData, getSubcategoryData } from '../../utils/api'; // Functions to fetch data from API
 import './categories.css';
+import { FcLeftDown2 } from 'react-icons/fc';
+import { MdArrowRightAlt } from 'react-icons/md';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -51,10 +53,13 @@ const Categories = () => {
   }
 
   return (
-    <div className="paddings cat-container">
+    <div className='wrapper paddings'>
+    <h1 className=" margin-b orangeText">Les Categories</h1>
+    <div className=" cat-container">
       <ul className="grid c-container">
         {categories.map(category => (
           <li className=" c-container"  key={category.id}>
+            <FcLeftDown2 />
             <Link className='primaryText' to={`/services?category=${category.id}`}>
               {category.name}
             </Link>
@@ -63,7 +68,7 @@ const Categories = () => {
                 .filter(subcategory => subcategory.CategoryId === category.id)
                 .map(subcategory => (
                   <li key={subcategory.id}>
-                 
+                 <MdArrowRightAlt />
                     <Link to={`/services/subcategory/${subcategory.id}`}>
                       {subcategory.name}
                     </Link>
@@ -74,6 +79,7 @@ const Categories = () => {
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 };

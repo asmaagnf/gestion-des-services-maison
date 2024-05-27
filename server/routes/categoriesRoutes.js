@@ -1,11 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const { Category } = require('../models');
+const multer = require('multer');
+
+
+const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directory where uploaded files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Unique filename for each uploaded file
+  }
+});
+// Validate MIME type
+const fileFilter = (req, file, cb) => {
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Type de fichier invalide. Seuls les fichiers JPEG, PNG et JPG sont autorisés.'));
+    }
+  };
+  const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Create a category
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
     try {
-        const category = await Category.create(req.body);
+        const { name } = req.body;
+        let mainImagePath = null;
+        mainImagePath = req.file.path;
+        const category = await Category.create({
+            name,
+            image: mainImagePath, // Save the main image path in the database
+          });
+
+
+
         res.status(201).json(category);
     } catch (error) {
         res.status(400).json({ error: error.message });

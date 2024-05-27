@@ -21,8 +21,13 @@ app.use('/api', serviceRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', SubcategoryRoutes);
 app.use('/api/reclamations', reclamationRoutes); 
-db.sequelize.sync().then(() => {
+db.sequelize.sync()
+.then(() => {
+console.log('Database synchronized');
 app.listen(3001, () => {
     console.log("server running");
  });
+})
+ .catch(error => {
+    console.error('Error synchronizing the database:', error);
 });

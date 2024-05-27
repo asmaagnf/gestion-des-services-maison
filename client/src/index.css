@@ -32,6 +32,10 @@
   margin-right: 30px;
 
 }
+.margin-b{
+  margin-bottom: 30px;
+
+}
 
 
 
@@ -138,6 +142,11 @@ a {
   color: #1f3e72;
   font-weight: bold;
   font-size: 2rem;
+}
+.current-image {
+  width: 100px;
+  height: auto;
+  margin: 5px;
 }
 
 .secondaryText {

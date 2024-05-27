@@ -95,20 +95,21 @@ table tbody tr:hover {
 }
 
 
-.action-buttons button {
+.action-buttons  {
   padding: 6px 12px;
-  margin-right: 12px;
+  
   color: #fff;
   border: none;
   cursor: pointer;
 }
 .modifier {
-  background-color: #0dafb4;
+  color: #0db47c;
+  margin-right: 12px;
 }
 .supprimer {
-  background-color: rgb(202, 37, 37);
+  color: rgb(223, 21, 21);
 }
 
-.action-buttons button:hover {
-  background-color: #aeaf78;
+.action-buttons :hover {
+ color: #a3a3a3;
 }

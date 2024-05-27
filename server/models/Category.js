@@ -9,8 +9,13 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false,
           unique: true
-        }
+        },
+        image: {
+          type: DataTypes.STRING,
+          allowNull: false
+      }
       });
+      
       Category.associate = (models) =>{
         Category.hasMany(models.Subcategory,{
         oneDelete: "CASCADE"

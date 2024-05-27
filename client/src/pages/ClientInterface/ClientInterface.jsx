@@ -11,9 +11,9 @@ const ClientInterface = () => {
   return (
     
       <div className="r-wrapper">
-        <h1 className=" paddings orangeText">Les Categories</h1>
+        <Services/>
        <Category/>
-      <Services/>
+      
       </div>
   
   );

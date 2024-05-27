@@ -16,6 +16,7 @@ const AddService = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
   const [error, setError] = useState('');
 
+
   useEffect(() => {
     const fetchSubcategories = async () => {
       try {
@@ -85,7 +86,7 @@ const AddService = () => {
         </div>
         <div>
           <label className="form-label">Description de votre service* :</label>
-          <textarea
+          <textarea rows={6}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
@@ -110,15 +111,6 @@ const AddService = () => {
             className="form-input"
           />
         </div>
-        <div>
-          <label className="form-label">Photo* :</label>
-          <input
-            type="file"
-            name="image"
-            onChange={(e) => setImage(e.target.files[0])}
-            className="form-input"
-          />
-        </div>
 
         <div>
           <label className="form-label">Sélectionnez la catégorie de vos services* :</label>
@@ -129,6 +121,21 @@ const AddService = () => {
             ))}
           </select>
         </div>
+
+         <div>
+          <label className="form-label">Photo* :</label>
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="form-input"
+          />
+          {image && <img src={URL.createObjectURL(image)} alt="Selected" className="preview-image" />}
+        </div>
+
+     
+
+        {/* File selection for multiple images */}
         <div>
           <label className="form-label">Des photos sur votre service* :</label>
           <input
@@ -138,6 +145,14 @@ const AddService = () => {
             onChange={handleFileChange}
             className="form-input"
           />
+          {/* Display selected images */}
+          {images.length > 0 && (
+            <div className="selected-images-container">
+              {images.map((file, index) => (
+                <img key={index} src={URL.createObjectURL(file)} alt={`Selected ${index}`} className="preview-image" />
+              ))}
+            </div>
+          )}
         </div>
         <button type="submit" className="button">Créer service</button>
       </form>
