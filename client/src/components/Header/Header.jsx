@@ -28,7 +28,6 @@ const Header = () => {
             className="flexCenter h-menu"
             style={getMenuStyles(menuOpened)}
           >
-             <a href="mailto:asmaegandaffa@gmail.com">Contact</a>
              <NavLink to="/services">Services</NavLink>
              <NavLink to="/pro">devenir pro</NavLink>
              <NavLink to="/login">se connecter</NavLink>

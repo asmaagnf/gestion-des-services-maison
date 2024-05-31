@@ -1,4 +1,4 @@
-/* CSS for the form container */
+/* CSS for the form container
 .form-container {
     max-width: 500px;
     padding: 20px;
@@ -51,33 +51,87 @@
     color: red;
     margin-top: 10px;
   }
-  .preview-image {
-    width: 100px;
-    height: 100px;
-    margin-top: 10px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
-  
+   */
+   /* CSS for the form container */
+.form-container {
+  max-width: 500px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 
-  
+/* CSS for form headings */
+.form-heading {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
 
-  
-  /* Style for selected images container */
-  .selected-images-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-  
-  /* Style for each selected image */
-  .selected-images-container img {
-    width: 100px;
-    height: 100px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
+/* CSS for form labels */
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
 
-  
+/* CSS for form inputs and textareas */
+.form-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* CSS for form select dropdown */
+.form-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+/* CSS for form button */
+
+
+
+
+/* CSS for error message */
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+.preview-image {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+
+
+
+
+/* Style for selected images container */
+.selected-images-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Style for each selected image */
+.selected-images-container img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+

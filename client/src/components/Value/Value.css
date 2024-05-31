@@ -1,57 +1,75 @@
-.v-container .image-container {
-  border: 8px solid rgb(232 232 232 / 93%);
+/* Value.css */
+
+.v-wrapper {
+  padding: 0px 0; /* Reduced padding */
+  background-color: #f9f9f9;
 }
-.v-container > div {
-  flex: 1;
+
+.v-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
-.v-right {
-  gap: 0.5rem;
+
+.orangeText {
+  color: #f39c12;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
-.accordion {
-  margin-top: 2rem;
-  border: none;
-}
-.accordionItem {
-  background: white;
-  border: 0.8px solid rgba(128, 128, 128, 0.143);
-  border-radius: 8px;
-  overflow: hidden;
+
+.primaryTexte {
+  font-size: 1.5rem;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-.accordionItem.expanded {
-  box-shadow: var(--shadow);
-  border-radius: 6px;
-}
-.accordionButton {
-  background: white;
-  padding: 1rem;
-  width: 100%;
+.values-container {
+  display: flex;
   justify-content: space-between;
-  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 2px; /* Reduced gap */
+  width: 100%;
 }
 
-.icon {
-  padding: 10px;
-  background: #eeeeff;
-  border-radius: 5px;
-}
-.icon svg {
-  fill: var(--blue);
-}
-
-.accordionButton .primaryText{
-    font-size: 1.1rem;
+.value-item {
+  flex: 1;
+  min-width: 380px;
+  max-width: 450px;
+  background: #fff;
+  padding: 15px; /* Reduced padding */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-@media (max-width: 1024px) {
-    .v-container{
-        flex-direction: column;
-    }
+.value-item:hover {
+  transform: translateY(-5px); /* Reduced transform distance */
+}
+
+.value-icon {
+  margin-bottom: 10px; /* Reduced margin */
+  color: #4161df;
+}
+
+.value-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px; /* Reduced margin */
+}
+
+.value-description {
+  color: #666;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
-    .accordionButton .primaryText{
-        font-size: .8rem;
-    }
+  .values-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .value-item {
+    max-width: none;
+  }
 }

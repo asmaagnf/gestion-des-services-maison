@@ -1,81 +1,39 @@
-import React, { useState } from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-  AccordionItemState,
-} from "react-accessible-accordion";
-import "react-accessible-accordion/dist/fancy-example.css";
-import {
-  MdOutlineArrowDropDown,
-  MdOutlineArrowDropDownCircle,
-} from "react-icons/md";
-import data from "../../utils/accordion.jsx";
+import React from "react";
 import "./Value.css";
-// Demo styles, see 'Styles' section below for some notes on use.
+import { MdOutlineSecurity, MdOutlineThumbUp, MdOutlineAccessTime } from "react-icons/md";
 
 const Value = () => {
+  const values = [
+    {
+      icon: <MdOutlineSecurity size={70} />,
+      title: "Sécurité et Confiance",
+      description: "Nous assurons la sécurité et la fiabilité de nos services pour votre tranquillité d'esprit.",
+    },
+    {
+      icon: <MdOutlineThumbUp size={70} />,
+      title: "Satisfaction Client",
+      description: "Votre satisfaction est notre priorité. Nous nous engageons à offrir le meilleur service possible.",
+    },
+    {
+      icon: <MdOutlineAccessTime size={70} />,
+      title: "Disponibilité 24/7",
+      description: "Nos services sont disponibles à tout moment, selon votre convenance, 24 heures sur 24, 7 jours sur 7.",
+    },
+  ];
+
   return (
     <section id="value" className="v-wrapper">
       <div className="paddings innerWidth flexCenter v-container">
-        {/* left side */}
-        <div className="v-left">
-          <div className="image-container">
-            <img src="./value.png" alt="" />
-          </div>
-        </div>
-
-        {/* right */}
-        <div className="flexColStart v-right">
-          <span className="orangeText">Notre Valeurs</span>
-
-          <span className="primaryText">Valeur que nous vous donnons</span>
-
-          <span className="secondaryText">
-          Gagnez du temps et de l'énergie, simplifiez-vous la vie !
-            <br />
-            Trouvez le service parfait, en toute confiance.
-          </span>
-
-          <Accordion
-            className="accordion"
-            allowMultipleExpanded={false}
-            preExpanded={[0]}
-          >
-            {data.map((item, i) => {
-              const [className, setClassName] = useState(null);
-              return (
-                <AccordionItem className={`accordionItem ${className}`} uuid={i} key={i}>
-                  <AccordionItemHeading>
-                    <AccordionItemButton className="flexCenter accordionButton ">
-                        {/* just for getting state of item */}
-                      <AccordionItemState>
-                        {({ expanded }) =>
-                          expanded
-                            ? setClassName("expanded")
-                            : setClassName("collapsed")
-                        }
-                      </AccordionItemState>
-                      <div className="flexCenter icon">{item.icon}</div>
-                      <span
-                        className="primaryText"
-                      >
-                        {item.heading}
-                      </span>
-                      <div className="flexCenter icon">
-                        <MdOutlineArrowDropDown size={20} />
-                      </div>
-                    </AccordionItemButton>
-                  </AccordionItemHeading>
-                  <AccordionItemPanel>
-                    <p className="secondaryText">{item.detail}</p>
-                  </AccordionItemPanel>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+        {/* <h2 className="orangeText">Nos Valeurs</h2> */}
+        <h3 className="primaryTexte">Les avantages que nous vous offrons</h3>
+        <div className="values-container">
+          {values.map((value, index) => (
+            <div className="value-item" key={index}>
+              <div className="value-icon">{value.icon}</div>
+              <h4 className="value-title">{value.title}</h4>
+              <p className="value-description">{value.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

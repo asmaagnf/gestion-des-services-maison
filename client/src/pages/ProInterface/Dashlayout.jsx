@@ -56,8 +56,9 @@ const Dashlayout = () => {
             style={getMenuStyles(menuOpened)}
           >
             <NavLink to="/pro-interface/Ajouter-Service">Ajouter un service</NavLink>
-            <NavLink to="/pro-interface/requests">Gérer les demandes</NavLink>
+            <NavLink to="/pro-interface/Demande">Gérer les demandes</NavLink>
             <NavLink to="/pro-interface/chat">Chat</NavLink>
+            <NavLink to="/pro-interface/reclamation">Reclamation</NavLink>
             <button
             className="button"
             onClick={handleLogout}

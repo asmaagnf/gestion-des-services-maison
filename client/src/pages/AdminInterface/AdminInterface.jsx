@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminInterface.css';
 import HeaderAdmin from './../../components/HeaderAdmin/HeaderAdmin';
-import { Modal, Button, TextInput, Select } from '@mantine/core';
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaUser } from "react-icons/fa";
 import CustomModal from '../../components/CustomModal/CustomModal';
 
 const AdminInterface = () => {
@@ -32,7 +31,7 @@ const AdminInterface = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/users');
+      const response = await axios.get('http://localhost:3001/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -52,7 +51,7 @@ const AdminInterface = () => {
 
   const getOnlineUsersCount = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/users/online/count');
+      const response = await axios.get('http://localhost:3001/users/online/count');
       setOnlineUsersCount(response.data.count);
     } catch (error) {
       console.error('Error fetching online users count:', error);
@@ -61,7 +60,7 @@ const AdminInterface = () => {
 
   const addUser = async () => {
     try {
-      await axios.post('http://localhost:3001/api/users/adduser', { username, email, password, role });
+      await axios.post('http://localhost:3001/users/adduser', { username, email, password, role });
       fetchUsers();
       getOnlineUsersCount();
       setUsername('');
@@ -75,7 +74,7 @@ const AdminInterface = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:3001/api/users/${userId}`);
+      await axios.delete(`http://localhost:3001/users/${userId}`);
       fetchUsers();
       getOnlineUsersCount();
     } catch (error) {
@@ -90,7 +89,7 @@ const AdminInterface = () => {
 
   const updateUser = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/users/${userToEdit.id}`, {
+      await axios.put(`http://localhost:3001/users/${userToEdit.id}`, {
         username: userToEdit.username,
         email: userToEdit.email,
         role: userToEdit.role,
@@ -111,10 +110,11 @@ const AdminInterface = () => {
       <div className="paddings">
         <h2 className='orangeText'>Gestion des utilisateurs</h2>
         <div className="grid">
-          <div className="grid__item">
-            <a href="#users"><h2 className="grid__title ">Nombre total d'utilisateurs </h2></a>
-            <h3 className="grid__count ">{users.length}</h3>
-          </div>
+        <a href="#users"><div className="grid__item">
+          <h2 className="grid__title ">Nombre total d'utilisateurs </h2>
+          <h3 className="grid__count ">{users.length}</h3>
+           
+          </div></a>
           <div className="grid__item">
             <h2 className="grid__title">Utilisateurs en ligne </h2>
             <h3 className="grid__count">{onlineUsersCount}</h3>

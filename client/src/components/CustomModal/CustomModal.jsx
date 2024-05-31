@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './CustomModal.css';
 
@@ -14,9 +15,7 @@ const CustomModal = ({ isOpen, onClose, children, title }) => {
         <div className="modal-content">
           {children}<br/>
         </div><br/>
-        <div className="modal-footer">
-          <button className="button" onClick={onClose}>Close</button>
-        </div>
+        
       </div>
     </div>
   );

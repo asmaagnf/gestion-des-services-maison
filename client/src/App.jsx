@@ -22,13 +22,15 @@ import Servicesbysubcat from "./pages/Services/Servicesbysubcat";
 import Category from "./pages/Category/Category";
 import Dashlayout from "./pages/ProInterface/Dashlayout";
 import Servicebyuserid from "./pages/Services/Servicebyuserid";
-import UpdateService from "./pages/updateservice/UpdateService";
+import UpdateService from "./pages/updateservice/Updateservice";
 import Reclamations from "../src/components/Reclamations/ReclamationsAdmin"; 
 import Listeservices from "../src/pages/Listeservices/Listeservices"
 import ClientdachLayout from "./pages/ClientInterface/ClientdachLayout";
 import Categorie from "./pages/Categorie/Categorie";
-
-
+import ClientProfile from "./pages/ClientInterface/ClientProfile";
+import DemandsPage from "./pages/DemandePage/DemandePage";
+import ClientDemandePage from "./pages/DemandePage/ClientDemandePage";
+import AddReclamation from "./components/AddReclamation/AddReclamation";
 
 function App() {
   const queryClient = new QueryClient();
@@ -44,7 +46,7 @@ function App() {
   };
   return (
     <QueryClientProvider client={queryClient}>
-  
+     
     <BrowserRouter>
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -63,6 +65,10 @@ function App() {
           
           <Route path="/404" element={<Page404 />} />
 
+          
+          
+       
+          
 
 <Route element={<ClientdachLayout/>}>
           <Route
@@ -81,13 +87,21 @@ function App() {
              <Route path=":serviceId" element={<ServiceDetail />} />
           </Route>
           <Route path="/allservices/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
- </Route>
+          <Route path="/ClientProfile" element={<ClientProfile/>} />
+          <Route path="client-interface/demande" element={<ClientDemandePage/>} />
+          <Route path="/client-interface/reclamation" element={<AddReclamation/>} />
 
+ </Route> 
 
+<Route path="/allservices" element={<Category/>} />
+
+<Route path="/allservices/subcategory/:subcategoryId" element={<Servicesbysubcat/>} />
 
 
 <Route  element={<Dashlayout/>}>
-  <Route
+<Route path="/pro-interface" element={<ProInterface />} />
+
+ <Route
   path="/pro-interface"
   element={
     <ProtectedRoute
@@ -95,14 +109,16 @@ function App() {
       requiredRole="pro"
       redirectTo="/404" 
     />}>
-   </Route>
+   </Route> 
    <Route path="/pro-interface/Ajouter-Service" element={<AddService />} />
    <Route path="/pro/service/Modifier-Service/:serviceId" element={<UpdateService/>} />
    <Route path="/pro/service"  >
              <Route index element={<Servicebyuserid/>} />
              <Route path=":serviceId" element={<ServiceDetail />} />
-             
+                    
    </Route>
+   <Route path="/pro-interface/reclamation" element={<AddReclamation/>} />
+   <Route path="/pro-interface/Demande"   element={<DemandsPage/>} />
 </Route>
 
 
@@ -117,7 +133,9 @@ function App() {
           />
         }
       /> 
-<Route path="/admin-interface/reclamations" element={<Reclamations/>} />
+<Route
+        path="/admin-interface" element={<AdminInterface /> }
+      /><Route path="/admin-interface/reclamations" element={<Reclamations/>} />
 <Route path="/admin-interface/listeservices" element={<Listeservices/>} />
 <Route path="/admin-interface/Categorie" element={<Categorie/>} />
 

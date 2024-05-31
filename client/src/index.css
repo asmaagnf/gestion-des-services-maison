@@ -25,6 +25,8 @@
 /* For the parent container */
 .flex {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
@@ -98,6 +100,9 @@ a {
 
 .innerWidth {
   width: 100%;
+}
+.innerheight {
+  min-height: 400px;
 }
 
 .flexCenter {

@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         });
         users.associate = (models) => {
           users.hasMany(models.Service, {onDelete: "CASCADE" });
+          users.hasMany(models.Demande, { foreignKey: 'userId' });
       };
   
     return users;

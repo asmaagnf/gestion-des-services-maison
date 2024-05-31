@@ -1,4 +1,4 @@
-
+/* good */
 .admin-container {
   max-width: 100vw;
   margin: 0 auto;
@@ -82,7 +82,7 @@ table th, table td {
 }
 
 table th {
-  background-color:rgb(25, 4, 130);
+  background-color:rgba(133, 134, 134, 0.836);
   color: #fff;
 }
 
@@ -112,4 +112,35 @@ table tbody tr:hover {
 
 .action-buttons :hover {
  color: #a3a3a3;
+}
+table {
+  width: 90%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: center; /* Center text and content in the table cells */
+}
+
+
+
+.action-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  align-items: center; /* Center the buttons vertically */
+  gap: 12px; /* Space between the buttons */
+}
+
+.modifier {
+  color: #0db47c;
+}
+
+.supprimer {
+  color: rgb(223, 21, 21);
+}
+
+.action-buttons :hover {
+  color: #a3a3a3;
 }

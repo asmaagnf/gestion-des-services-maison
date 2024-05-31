@@ -33,7 +33,7 @@ const Services = () => {
     )
   }
   return (
-    <div className="r-wrapper">
+    <div id="services" className="r-wrapper">
       <div className="paddings innerWidth r-container">
         <div className="flexColStart r-head">
           <span className="orangeText">Meilleurs choix</span>

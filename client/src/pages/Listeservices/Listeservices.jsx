@@ -1,3 +1,4 @@
+// good
 import React, { useEffect, useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import '../Services/Services.css';
@@ -20,7 +21,7 @@ const listeservices = () => {
   }, []);
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/users');
+      const response = await axios.get('http://localhost:3001/users');
       setUsers(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);

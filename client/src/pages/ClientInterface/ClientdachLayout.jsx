@@ -57,6 +57,10 @@ const ClientdachLayout = () => {
               style={getMenuStyles(menuOpened)}
             >
               <NavLink to="/allservices">Services</NavLink>
+              <NavLink to="/404">chat</NavLink>
+              <NavLink to="client-interface/demande">Mes Demande</NavLink>
+              <NavLink to="/ClientProfile">Profile</NavLink>
+              <NavLink to="/client-interface/reclamation">Reclamation</NavLink>
               <button
             className="button"
             onClick={handleLogout}

@@ -1,3 +1,4 @@
+
 // models/Service.js
 module.exports = (sequelize, DataTypes) => {
     const Service = sequelize.define('Service', {
@@ -30,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Service.associate = (models) => {
         Service.hasMany(models.ServiceImage, {  onDelete: "CASCADE" });
+        Service.hasMany(models.Demande);
+        Service.belongsTo(models.users); 
       
     };
 
