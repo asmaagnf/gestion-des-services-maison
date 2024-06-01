@@ -29,7 +29,7 @@ const ClientDemandePage = () => {
   }, [userId]);
 
   return (
-    <div className='innerheight'>
+    <div className='innerheight paddings'>
       <h1 className='primaryText margin-b'>Votre Demandes </h1>
       <table className='margin-b '>
         <thead>

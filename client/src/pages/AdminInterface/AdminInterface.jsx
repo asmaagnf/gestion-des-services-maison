@@ -3,7 +3,7 @@ import axios from 'axios';
 import './AdminInterface.css';
 import HeaderAdmin from './../../components/HeaderAdmin/HeaderAdmin';
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { FaEdit, FaUser } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import CustomModal from '../../components/CustomModal/CustomModal';
 
 const AdminInterface = () => {
@@ -14,11 +14,12 @@ const AdminInterface = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('client'); 
   const [onlineUsersCount, setOnlineUsersCount] = useState(0);
   const [selectedRole, setSelectedRole] = useState('all');
   const [modalOpened, setModalOpened] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -66,7 +67,8 @@ const AdminInterface = () => {
       setUsername('');
       setEmail('');
       setPassword('');
-      setRole('');
+      setRole('client'); 
+      setIsModalOpen(false);
     } catch (error) {
       console.error('Error adding user:', error);
     }
@@ -121,34 +123,40 @@ const AdminInterface = () => {
           </div>
         </div>
 
+        <div>
+      <CustomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Ajouter un utilisateur">
         <div className="add-user-form">
-          <h3>Ajouter un utilisateur</h3>
+        <label>Nom d'utilisateur:</label><br/>
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Nom d'ultilisateur"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-          />
+          /><br/>
+          <label>Email:</label><br/>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="client/pro/admin"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          />
+          /><br/>
+          <label>Role:</label><br/>
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="client">Client</option>
+            <option value="pro">Professional</option>
+            <option value="admin">Admin</option>
+          </select><br/>
+          <label>Password:</label><br/>
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
+          /><br/>
           <button className="button" onClick={addUser}>Ajouter</button>
         </div>
+      </CustomModal>
+    </div>
         <div className="filter-buttons">
           <h3>Filtrer par rôle:</h3>
           <button onClick={() => setSelectedRole('all')}>All</button>
@@ -172,6 +180,9 @@ const AdminInterface = () => {
           />
           <button onClick={filterUsers}>Recherche</button>
         </div>
+        <button className="button" onClick={() => setIsModalOpen(true)}>
+        Ajouter un utilisateur
+      </button>
         <table className="user-table" id='users'>
           <thead>
             <tr>
@@ -206,9 +217,9 @@ const AdminInterface = () => {
           title="Modifier utilisateur"
         >
           {userToEdit && (
-            <div>
+            <div className="add-user-form">
               <label>
-                Username<br/>
+                Nom d'utilisateur:<br/>
                 <input
                   type="text"
                   value={userToEdit.username}
@@ -216,7 +227,7 @@ const AdminInterface = () => {
                 />
               </label><br/>
               <label>
-                Email<br/>
+                Email:<br/>
                 <input
                   type="email"
                   value={userToEdit.email}
@@ -224,7 +235,7 @@ const AdminInterface = () => {
                 />
               </label><br/>
               <label>
-                Role<br/>
+                Role:<br/>
                 <select
                   value={userToEdit.role}
                   onChange={(e) => setUserToEdit({ ...userToEdit, role: e.target.value })}
@@ -242,7 +253,7 @@ const AdminInterface = () => {
                   onChange={(e) => setUserToEdit({ ...userToEdit, image: e.target.value })}
                 />
               </label><br/>
-              <button className="button" onClick={updateUser}>Save</button>
+              <button className="button" onClick={updateUser}>Modifier</button>
             </div>
           )}
         </CustomModal>

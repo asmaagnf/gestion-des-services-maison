@@ -103,4 +103,24 @@ router.put('/update-demande-status/:demandeId', async (req, res) => {
   }
 });
 
+//user demande count
+router.get('/user/demande/count/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+  
+      // Find all services owned by the seller
+      const services = await Service.findAll({ where: { userId } });
+      const serviceIds = services.map(service => service.id);
+  
+      // Find all demandes associated with the services
+      const demandeCount = await Demande.count({ where: { ServiceId: serviceIds } });
+  
+      return res.status(200).json({ count: demandeCount });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send("Internal Server Error");
+    }
+  });
+
+
 module.exports = router;

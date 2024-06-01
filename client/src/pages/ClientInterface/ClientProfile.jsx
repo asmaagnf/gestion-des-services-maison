@@ -1,45 +1,180 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import Footer from "../../components/Footer/Footer";
-
+import Avatar from "../../components/Avatar";
+import { jwtDecode } from "jwt-decode";
+import CustomModal from "../../components/CustomModal/CustomModal";
+import { toast } from "react-toastify";
 
 const ClientProfile = () => {
-  const handleLogout = () => {
-    // Add your logout logic here
+  const [user, setUser] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [image, setImage] = useState(null);
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+
+      try {
+        const response = await axios.get(`http://localhost:3001/users/${userId}`);
+        setUser(response.data);
+        setUsername(response.data.username);
+        setEmail(response.data.email);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleEditUser = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+  
+    try {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('email', email);
+  
+      if (image) {
+        formData.append('image', image);
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+  
+      await axios.put(`http://localhost:3001/users/${userId}`, formData, config);
+      setIsEditModalOpen(false);
+      toast.success('modifié avec succès!');
+    } catch (error) {
+      console.error('Error updating user:', error);
+      toast.error('Échec de la modification');
+    }
   };
 
-  return (<div>
-    <div style={styles.pageContainer}>
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
       
-      <div style={styles.accountPage}>
-        <div style={styles.accountSidebar}>
-          <h2 style={styles.sidebarTitle}>Your Account</h2>
-          <ul style={styles.sidebarList}>
-            <li><a href="#profile" style={styles.sidebarLink}>Profile</a></li>
-            <li><a href="#password" style={styles.sidebarLink}>Password</a></li>
-            <li><a href="#business-info" style={styles.sidebarLink}>Business Information</a></li>
-            <li><a href="#delete-account" style={styles.sidebarLink}>Delete Account</a></li>
-          </ul>
-        </div>
-        <div style={styles.accountContent}>
-          <div style={styles.accountHeader}>
-            <h2>Account</h2>
-            <button style={styles.editButton}>Edit</button>
+      await axios.put(`http://localhost:3001/users/updatePassword/${userId}`, { password, newPassword });
+      
+      setIsPasswordModalOpen(false);
+      toast.success('Mot de passe modifié avec succès !');
+    } catch (error) {
+      console.error('Error changing password:', error);
+      toast.error('Échec de la modification du mot de passe.');
+    }
+};
+
+  const handleDeleteUser = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      await axios.delete(`http://localhost:3001/users/${userId}`);
+      alert('User deleted successfully!');
+      // Add logout logic here
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Failed to delete user.');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/", { replace: true });
+  };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <div style={styles.pageContainer}>
+        <div style={styles.accountPage}>
+          <div style={styles.accountSidebar}>
+            <h2 style={styles.sidebarTitle}>Votre Account</h2>
+            <ul style={styles.sidebarList}>
+              <li><a href="#profile" style={styles.sidebarLink}>Profile</a></li>
+              <li><a href="#password" style={styles.sidebarLink} onClick={() => setIsPasswordModalOpen(true)}>Changer Password</a></li>
+              <li><a href="#delete-account" style={styles.sidebarLink} onClick={handleDeleteUser}>Supprimer Account</a></li>
+            </ul>
           </div>
-          <div style={styles.accountInfo}>
-            <div style={styles.accountAvatar}>
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwCIz7PI9hNldODpO5z1hDiagPJpLRzdatBRJ4WwELIw&s" alt="Avatar" style={styles.avatarImage} />
+          <div style={styles.accountContent}>
+            <div style={styles.accountHeader}>
+              <h2>Account</h2>
+              <button style={styles.editButton} onClick={() => setIsEditModalOpen(true)}>Modifier</button>
             </div>
-            <div style={styles.accountDetails}>
-              <p><i className="fas fa-user"></i> ayoub el mouden</p>
-              <p><i className="fas fa-envelope"></i> ayoub.elmeo@gmail.com</p>
-             
+            <div style={styles.accountInfo}>
+              <div style={styles.accountAvatar}>
+                <Avatar style={styles.avatarImage} />
+              </div>
+              <div style={styles.accountDetails}>
+                <p><i className="fas fa-user"></i> {user.username}</p>
+                <p><i className="fas fa-envelope"></i> {user.email}</p>
+              </div>
             </div>
+            <button style={styles.logoutButton} onClick={handleLogout}>Se Déconnecter</button>
           </div>
-          <button style={styles.logoutButton} onClick={handleLogout}>Log Out</button>
         </div>
       </div>
+      <Footer />
+
+      {/* Edit User Modal */}
+      <CustomModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit User">
+        <div className="add-user-form">
+          <label>Username:</label><br/>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
+          <label>Email:</label><br/>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br/>
+          <div>
+          <label className="form-label">Photo actuelle:</label>
+          <img src={`http://localhost:3001/${user?.image}`} alt="photo" className="current-image" />
+        </div>
+        <div>
+          <label className="form-label">Nouvelle photo:</label>
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => setImage(e.target.files[0])}
+            className="form-input"
+          />
+        </div><br/>
+          <button className="button" onClick={handleEditUser}>Modifier</button>
+        </div>
+      </CustomModal>
+
+      {/* Change Password Modal */}
+      <CustomModal isOpen={isPasswordModalOpen} onClose={() => setIsPasswordModalOpen(false)} title="Change Password">
+  <form onSubmit={handleChangePassword}>
+    <div>
+      <label>Mot de passe actuel:</label><br/>
+      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /><br/>
+      <label>Nouveau mot de passe:</label><br/>
+      <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required /><br/>
+      <button className="button" type="submit">Changer mot de passe</button>
     </div>
-    <Footer />
+  </form>
+</CustomModal>
     </div>
   );
 };
@@ -105,8 +240,8 @@ const styles = {
     marginRight: '20px',
   },
   avatarImage: {
-    width: '100px',
-    height: '100px',
+    width: '50px',
+    height: '50px',
     borderRadius: '50%',
   },
   accountDetails: {

@@ -23,7 +23,7 @@
     width: 12rem;
   }
   
-  .card__avatar {
+  .card__avatar  {
     background-color: #6f42c1;
     height: 4rem;
     width: 4rem;
@@ -32,7 +32,15 @@
     justify-content: center;
     border-radius: 50%;
   }
-  
+  .card__avatar img {
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
   .card__avatar span {
     font-size: 3rem;
     color: white;

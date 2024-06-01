@@ -25,7 +25,7 @@ h2 {
 }
 
 .add-user-form input {
-  width: 20%;
+  width: 40%;
   padding: 8px;
   margin-right: 10px;
 }
@@ -82,8 +82,8 @@ table th, table td {
 }
 
 table th {
-  background-color:rgba(133, 134, 134, 0.836);
-  color: #fff;
+  background-color:rgb(254, 255, 255);
+  color: #1a1919;
 }
 
 table tbody tr:nth-child(even) {
@@ -109,10 +109,15 @@ table tbody tr:hover {
 .supprimer {
   color: rgb(223, 21, 21);
 }
+.ajouter {
+  color: rgb(223, 21, 21);
+  
+}
 
 .action-buttons :hover {
- color: #a3a3a3;
+  color: #a3a3a3;
 }
+
 table {
   width: 90%;
   border-collapse: collapse;
@@ -133,14 +138,4 @@ table th, table td {
   gap: 12px; /* Space between the buttons */
 }
 
-.modifier {
-  color: #0db47c;
-}
 
-.supprimer {
-  color: rgb(223, 21, 21);
-}
-
-.action-buttons :hover {
-  color: #a3a3a3;
-}

@@ -1,29 +1,53 @@
 import React, { useState } from "react";
-import AccessRequestForm from "./AccessRequestForm";
 import { useNavigate } from "react-router-dom";
 import { MdLocationPin } from "react-icons/md";
+import CustomModal from '../../components/CustomModal/CustomModal'; 
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+import { toast } from 'react-toastify';
 
 const ServiceCard = ({ card }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [description, setDescription] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [taille, setTaille] = useState('petit'); // Default to 'petit'
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  const handleCreateDemande = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Vous devez être connecté');
+        return;
+      }
+
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+      const response = await axios.post('http://localhost:3001/api/demande/create-demande', {
+        description,
+        adresse,
+        taille,
+        ServiceId: card.id,
+        userId,
+      });
+      if (response.status === 201) {
+        setDescription('');
+        setAdresse('');
+        setTaille('petit');
+        setIsModalOpen(false);
+    
+         toast.success('Demande envoyée avec succès !');
+        }
+      } catch (error) {
+        console.error('Error creating demande:', error);
+        toast.error('Une erreur est survenue. Veuillez réessayer.');
+      }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+
   const navigate = useNavigate();
 
   return (
     <div style={styles.card}>
-      {showModal && (
-        <div style={styles.modal}>
-          <div style={styles.modalContent}>
-            <AccessRequestForm onClose={handleCloseModal}  />
-          </div>
-        </div>
-      )}
       <div style={styles.imageContainer}>
         <img src={`http://localhost:3001/${card.image}`} alt={card.name} style={styles.image} />
       </div>
@@ -35,9 +59,49 @@ const ServiceCard = ({ card }) => {
           <p style={styles.location}>{card.location}</p>
         </div>
         <div style={styles.buttonContainer}>
-          <button onClick={handleOpenModal} style={styles.button}>
+          <button onClick={() => setIsModalOpen(true)} style={styles.button}>
           Demander
           </button>
+          <div>
+          <CustomModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            title="Créer une Demande"
+          >
+            <div className="add-user-form "> 
+              <label>
+              Détails de la tâche :<br/>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description de la demande"
+                  rows="4"
+                /><br/>
+              </label>
+              <label>
+              Adresse où le service sera effectué :<br/>
+                <input
+                  type="text"
+                  value={adresse}
+                  onChange={(e) => setAdresse(e.target.value)}
+                  placeholder="Adresse"
+                /><br/>
+              </label>
+              <label>
+              Quelle est la taille de votre tâche ?<br/>
+                <select
+                  value={taille}
+                  onChange={(e) => setTaille(e.target.value)}
+                >
+                  <option value="petit">petit</option>
+                  <option value="moyen">moyen</option>
+                  <option value="grand">grand</option>
+                </select><br/>
+              </label>
+              <button className="button" onClick={handleCreateDemande}>Envoyer</button>
+            </div>
+          </CustomModal>
+          </div>
           <button style={styles.button1}  onClick={()=>navigate(`../service/${card.id}`)}>Voir détails</button>
         </div>
       </div>

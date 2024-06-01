@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
-import './AddService.css'; // Import your CSS file
+import './AddService.css'; 
 import { useNavigate } from 'react-router-dom';
+import illustration from "../../../public/hero-image.png";
 
 const AddService = () => {
   const navigate = useNavigate();
@@ -71,6 +72,10 @@ const AddService = () => {
   };
 
   return (
+    <div className="container-c">
+      <div className="image-section">
+        <img src={illustration} alt="Professional Illustration" className="illustration-image" />
+      </div>
     <div className="form-container">
       <h2 className="form-heading primaryText">Créer un service</h2>
       <form onSubmit={handleSubmit} encType='multipart/form-data' method='POST'>
@@ -91,6 +96,7 @@ const AddService = () => {
             onChange={(e) => setDescription(e.target.value)}
             required
             className="form-input"
+            placeholder="Fournissez une description détaillée de votre service"
           />
         </div>
         <div>
@@ -100,6 +106,7 @@ const AddService = () => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className="form-input"
+            placeholder="Entrez votre adresse professionnelle"
           />
         </div>
         <div>
@@ -157,6 +164,7 @@ const AddService = () => {
         <button type="submit" className="button">Créer service</button>
       </form>
       {error && <div className="error-message">{error}</div>}
+    </div>
     </div>
   );
 };

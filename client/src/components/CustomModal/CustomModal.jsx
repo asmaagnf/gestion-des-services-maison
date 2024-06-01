@@ -9,7 +9,7 @@ const CustomModal = ({ isOpen, onClose, children, title }) => {
     <div className="modal-overlay">
       <div className="modal-container">
         <div className="modal-header">
-          <h2>{title}</h2>
+          <h2 className='primaryText'>{title}</h2>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         <div className="modal-content">

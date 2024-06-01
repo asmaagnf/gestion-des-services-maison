@@ -3,6 +3,7 @@ import axios from "axios";
 import './AddReclamation.css';
 import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { FcAssistant } from "react-icons/fc";
 
 const AddReclamation = () => {
   const [title, setTitle] = useState("");
@@ -47,7 +48,7 @@ const AddReclamation = () => {
 
   return (
     <div className="recform-container">
-      <label className="primaryText">Ajouter une réclamation
+    <label className="primaryText"><FcAssistant />Ajouter votre réclamation 
       <input
         type="text"
         className="recinput-field"

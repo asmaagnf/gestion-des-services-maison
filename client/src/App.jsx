@@ -28,7 +28,7 @@ import Listeservices from "../src/pages/Listeservices/Listeservices"
 import ClientdachLayout from "./pages/ClientInterface/ClientdachLayout";
 import Categorie from "./pages/Categorie/Categorie";
 import ClientProfile from "./pages/ClientInterface/ClientProfile";
-import DemandsPage from "./pages/DemandePage/DemandePage";
+import ProDemandePage from "./pages/DemandePage/ProDemandePage";
 import ClientDemandePage from "./pages/DemandePage/ClientDemandePage";
 import AddReclamation from "./components/AddReclamation/AddReclamation";
 
@@ -118,7 +118,8 @@ function App() {
                     
    </Route>
    <Route path="/pro-interface/reclamation" element={<AddReclamation/>} />
-   <Route path="/pro-interface/Demande"   element={<DemandsPage/>} />
+   <Route path="/pro-interface/Demande"   element={<ProDemandePage/>} />
+   <Route path="/pro-interface/Profile" element={<ClientProfile/>} />
 </Route>
 
 

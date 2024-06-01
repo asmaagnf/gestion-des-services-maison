@@ -5,12 +5,22 @@ import { getCategoryData, getSubcategoryData } from '../../utils/api'; // Functi
 import headerImage from '../../../public/value.png'; // Import the image
 import { BsArrowRight } from 'react-icons/bs';
 
+const getImageUrl = (imagePath) => {
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  return `http://localhost:3001/${imagePath}`;
+};
+
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
     // Fetch categories data
     getCategoryData()
       .then(data => {
@@ -49,7 +59,7 @@ const Category = () => {
   }
 
   // Limit the displayed categories to 3
-  const displayedCategories = categories.slice(0, 3);
+  const displayedCategories = categories.slice(0, 4);
 
   // Find the maximum number of subcategories among all categories
   const maxSubcategoriesCount = Math.max(...displayedCategories.map(category => subcategories.filter(subcategory => subcategory.CategoryId === category.id).length));
@@ -93,9 +103,9 @@ const Category = () => {
           <li key={category.id} style={{ flex: "0 1 400px", margin: "10px" }}>
             <div className="card" style={{ width: "100%", border: "1px solid #ccc", borderRadius: "8px", overflow: "hidden", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", transition: "transform 0.2s", height: `${maxCardHeight}px` }}>
               <div style={{ height: `${imageHeight}px`, overflow: "hidden", border: "none", position: "relative" }}>
-                <img 
-                  src={headerImage} 
-                  alt="Header" 
+              <img 
+                    src={getImageUrl(category.image)} // Utilisation de la fonction utilitaire
+                    alt={category.name} 
                   className="card-image" 
                   style={{ 
                     width: "100%", 
@@ -120,19 +130,33 @@ const Category = () => {
                         <div style={{ marginRight: "8px" }}>
                           <BsArrowRight size={16} />
                         </div>
-                        <Link 
-                          to="/register"
-                          style={{ 
-                            textDecoration: "none", 
-                            color: "#007aff", 
-                            fontSize: "16px", // Adjust font size as needed
-                            transition: "color 0.3s" // Smooth transition for color change
+                        {isLoggedIn ? (
+                        <Link
+                          to={`/allservices/subcategory/${subcategory.id}`}
+                          style={{
+                            textDecoration: 'none',
+                            color: '#007aff',
+                            fontSize: '16px',
+                            transition: 'color 0.3s',
                           }}
-                          onMouseOver={e => e.target.style.color = "black"} // Change color to black on hover
-                          onMouseOut={e => e.target.style.color = "#007aff"} // Change color back to original on hover out
+                          onMouseOver={e => (e.target.style.color = 'black')}
+                          onMouseOut={e => (e.target.style.color = '#007aff')}
                         >
                           {subcategory.name}
                         </Link>
+                        ) : (
+                          <Link to={`/services/subcategory/${subcategory.id}`}
+                          style={{
+                            textDecoration: 'none',
+                            color: '#007aff',
+                            fontSize: '16px',
+                            transition: 'color 0.3s',
+                          }}
+                          onMouseOver={e => (e.target.style.color = 'black')}
+                          onMouseOut={e => (e.target.style.color = '#007aff')}
+                          
+                          > {subcategory.name} </Link>
+                     )}
                         
                       </li>
                     ))}

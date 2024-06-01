@@ -1,8 +1,7 @@
 
-import Footer from "../../components/Footer/Footer";
 import React from "react";
 import Services from "../../components/Services/Services";
-import Category from "../Category/Category";
+import Category from "../Category/CategoryHomeP";
 
 const ClientInterface = () => {
  
@@ -13,7 +12,6 @@ const ClientInterface = () => {
         
        <Category/>
       <Services/>
-      <Footer/>
       </div>
   
   );

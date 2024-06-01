@@ -147,7 +147,7 @@ const ServiceDetail = () => {
                   <option value="grand">grand</option>
                 </select><br/>
               </label>
-              <button className="button" onClick={handleCreateDemande}>Créer</button>
+              <button className="button" onClick={handleCreateDemande}>Envoyer</button>
             </div>
           </CustomModal>
 
