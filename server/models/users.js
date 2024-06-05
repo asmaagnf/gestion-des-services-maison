@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         users.associate = (models) => {
           users.hasMany(models.Service, {onDelete: "CASCADE" });
           users.hasMany(models.Demande, { foreignKey: 'userId' });
+          users.hasMany(models.Comment, { foreignKey: 'UserId', as: 'comments' });
+          users.hasMany(models.Message);
+          users.hasMany(models.Message);
       };
   
     return users;

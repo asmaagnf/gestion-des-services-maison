@@ -11,7 +11,8 @@ const Servicesbysubcat = () => {
   const { pathname } = useLocation();
   const subcategoryId = pathname.split("/").slice(-1)[0];
   const { data, isLoading, isError } = useQuery(["servSubcat", subcategoryId], () => getSubcatServices(subcategoryId));
-  const [filter, setFilter] = useState("");
+  const [titleFilter, setTitleFilter] = useState("");
+  const [addressFilter, setAddressFilter] = useState("");
   if (isError) {
     return (
       <div style={styles.wrapper}>
@@ -37,15 +38,20 @@ const Servicesbysubcat = () => {
         <div style={styles.header}>
           <h2 style={styles.mainText}>Découvrez nos services</h2>
           <p style={styles.subText}>Explorez les meilleurs services de la catégorie : {data.name}</p>
-          <SearchBar filter={filter} setFilter={setFilter} />
+          <SearchBar
+            titleFilter={titleFilter}
+            setTitleFilter={setTitleFilter}
+            addressFilter={addressFilter}
+            setAddressFilter={setAddressFilter}
+          />
         </div>
         <div style={styles.services}>
         { 
-           data.filter(
-                (service) =>
-                  service.title.toLowerCase().includes(filter.toLowerCase()) ||
-                  service.location.toLowerCase().includes(filter.toLowerCase())
-              )
+            data.filter(
+              (service) =>
+                service.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+                service.location.toLowerCase().includes(addressFilter.toLowerCase())
+            )
           .map((card, i) => (
             <div key={i} style={styles.serviceCardWrapper}>
               <Sc card={card} />
@@ -125,62 +131,3 @@ const styles = {
 };
 
 export default Servicesbysubcat;
-// //goodhna lcode dial assmaa
-// import React, { useState } from 'react';
-// import SearchBar from '../../components/SearchBar/SearchBar';
-// import './Services.css';
-// import { PuffLoader } from "react-spinners";
-// import ServiceCard from '../../components/ServiceCard/ServiceCard';
-// import { getSubcatServices  } from '../../utils/api';
-// import { useQuery } from 'react-query';
-// import { useLocation } from 'react-router-dom';
-
-// const Servicesbysubcat = () => {
-//   const { pathname } = useLocation();
-//   const subcategoryId = pathname.split("/").slice(-1)[0];
-//   const { data, isLoading, isError } = useQuery(["servSubcat", subcategoryId], () => getSubcatServices(subcategoryId));
-//   const [filter, setFilter] = useState("");
-
-//   if (isError) {
-//     return (
-//       <div className="wrapper">
-//         <span>Error while fetching data</span>
-//       </div>
-//     );
-//   }
-
-//   if (isLoading) {
-//     return (
-//       <div className="wrapper flexCenter" style={{ height: "60vh" }}>
-//         <PuffLoader
-//           height="80"
-//           width="80"
-//           radius={1}
-//           color="#4066ff"
-//           aria-label="puff-loading"
-//         />
-//       </div>
-//     );
-//   }
-//   return (
-//     <div className='wrapper'>
-//       <div className="flexColCenter paddings innerWidth service-container">
-//       <SearchBar filter={filter} setFilter={setFilter} />
-//         <div className="paddings flexCenter services">
-//            { 
-//            data.filter(
-//                 (service) =>
-//                   service.title.toLowerCase().includes(filter.toLowerCase()) ||
-//                   service.location.toLowerCase().includes(filter.toLowerCase())
-//               )
-//               .map((card, i) => (
-//                 <ServiceCard  card={card} key={i} />
-//               ))
-//           }
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Servicesbysubcat

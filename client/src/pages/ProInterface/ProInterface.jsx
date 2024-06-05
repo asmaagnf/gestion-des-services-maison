@@ -1,110 +1,115 @@
-
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {fetchUserServicesCount, fetchUserdemandeCount } from '../../utils/api';
+import { fetchDemandeStatusCounts, fetchUserServicesCount, fetchUserdemandeCount } from '../../utils/api';
 import './Prointerface.css';
-
+import { MdOutlineMail } from "react-icons/md";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { TbCurrentLocation } from "react-icons/tb";
 
 const ProInterface = () => {
   const [serviceCount, setServiceCount] = useState(0);
   const [demandeCount, setDemandeCount] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
+  const [statusCounts, setStatusCounts] = useState({
+    enCoursCount: 0,
+    refuseCount: 0,
+    completeCount: 0
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.id;
+      try {
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
 
-      // Fetch user info using the user ID
-      axios.get(`http://localhost:3001/users/${userId}`)
-        .then(response => {
-          setUserInfo(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching user info:', error);
-        });
+        axios.get(`http://localhost:3001/users/${userId}`)
+          .then(response => {
+            setUserInfo(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching user info:', error);
+          });
 
-      // Fetch service count using the user ID
-      fetchUserServicesCount(userId)
-        .then(count => {
-          setServiceCount(count);
-        })
-        .catch(error => {
-          console.error('Error fetching service count:', error);
-        });
+        fetchUserServicesCount(userId)
+          .then(count => {
+            setServiceCount(count);
+          })
+          .catch(error => {
+            console.error('Error fetching service count:', error);
+          });
 
-      // Fetch demande count using the user ID
-      fetchUserdemandeCount(userId)
-      .then(count => {
-        setDemandeCount(count);
-      })
-      .catch(error => {
-        console.error('Error fetching demande count:', error);
-      });
+        fetchUserdemandeCount(userId)
+          .then(count => {
+            setDemandeCount(count);
+          })
+          .catch(error => {
+            console.error('Error fetching demande count:', error);
+          });
 
-
+        fetchDemandeStatusCounts(userId)
+          .then(data => {
+            setStatusCounts(data);
+          })
+          .catch(error => {
+            console.error('Failed to fetch demandes status counts', error);
+          });
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
     }
   }, []);
 
   return (
-    <div className='interface'>
+    <div className="container-d">
       {userInfo && (
-        <div className="Container">
-          <div className="card">
-            <div className="card__avatar">
-            {userInfo ? (
-          userInfo.image ? (
-            <img
-              src={`http://localhost:3001/${userInfo.image}`}
-              alt="User Avatar"
-              
-            />
-          ) : (
-           
-              <span >
-                {userInfo.email[0].toUpperCase()}
-              </span>
-            
-          )
-        ) : (
-          <div className="bg-purple-500 h-24 w-24 flex items-center justify-center rounded-full relative">
-            <span className="text-5xl text-white">
-              
-            </span>
-          </div>
-        )}
+        <>
+          <div className="profile">
+            <div className="avatar-container">
+              {userInfo.image ? (
+                <img src={`http://localhost:3001/${userInfo.image}`} alt="User Avatar" className="avatar" />
+              ) : (
+                <div className="avatar-placeholder">
+                  <span>{userInfo.email[0].toUpperCase()}</span>
+                </div>
+              )}
             </div>
-            <div className="card__content">
-              <span className="card__username">{userInfo.username}</span>
-            </div>
-            <div className="card__divider"></div>
-          </div>
-          <div className="grid">
-            <div className="grid__item" onClick={() => navigate("/pro/service")}>
-              <h2 className="grid__title">Service Total</h2>
-              <h3 className="grid__count">{serviceCount}</h3>
-            </div>
-            <div className="grid__item">
-              <h2 className="grid__title">Total des demandes</h2>
-              <h3 className="grid__count">{demandeCount}</h3>
-            </div>
-            <div className="grid__item">
-              <h2 className="grid__title">Nouveau Messages</h2>
-              <h3 className="grid__count">0</h3>
+            <div className="info">
+              <span className="username">{userInfo.username}</span>
+              <p> <MdOutlineMail /> {userInfo.email}</p>
+              <p> <MdOutlineLocationOn />{userInfo.adresse}</p>
+              <p><TbCurrentLocation /> {userInfo.code_postal}</p>
             </div>
           </div>
-        </div>
+          <div className="dashboard">
+            <div className="card" onClick={() => navigate("/pro/service")}>
+              <h2>Services total</h2>
+              <h3>{serviceCount}</h3>
+            </div>
+            <div className="card" onClick={() => navigate("/pro-interface/Demande")}>
+              <h2>Total des demandes</h2>
+              <h3>{demandeCount}</h3>
+            </div>
+            <div className="card">
+              <h2>Demandes complété</h2>
+              <h3>{statusCounts.completeCount}</h3>
+            </div>
+            <div className="card">
+              <h2>Demandes en cours</h2>
+              <h3>{statusCounts.enCoursCount}</h3>
+            </div>
+            <div className="card">
+              <h2>Demandes Refusé</h2>
+              <h3>{statusCounts.refuseCount}</h3>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
-}
-  
+};
 
-
-
-export default ProInterface
-
+export default ProInterface;

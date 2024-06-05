@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdLocationPin } from "react-icons/md";
 import CustomModal from '../../components/CustomModal/CustomModal'; 
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { toast } from 'react-toastify';
+import { FaStar } from "react-icons/fa";
+import'./sc.css'
 
 const ServiceCard = ({ card }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [adresse, setAdresse] = useState('');
   const [taille, setTaille] = useState('petit'); // Default to 'petit'
+  const [averageRating, setAverageRating] = useState(0);
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/comments/service/${card.id}`);
+        const comments = response.data;
+
+        if (comments.length === 0) return;
+
+        const totalRating = comments.reduce((acc, comment) => acc + comment.rating, 0);
+        const avgRating = (totalRating / comments.length).toFixed(1);
+        setAverageRating(avgRating);
+      } catch (error) {
+        console.error('Error fetching ratings:', error);
+      }
+    };
+
+    fetchRatings();
+  }, [card.id]);
 
   const handleCreateDemande = async () => {
     try {
@@ -53,6 +75,10 @@ const ServiceCard = ({ card }) => {
       </div>
       <div style={styles.content}>
         <h3 className="primaryText" style={styles.title}>{card.title}</h3>
+        <div className="average-rating">
+        <FaStar size={20} color="#FFD700" />
+        <span> {averageRating}</span>
+      </div>
         <p className="secondaryText" style={styles.description}>{card.description}</p>
         <div style={styles.locationContainer}>
         <MdLocationPin size={25} />
@@ -151,7 +177,7 @@ const styles = {
   title: {
     fontSize: "24px",
     fontWeight: "bold",
-    margin: "0 0 10px 0",
+    margin: "0 0 5px 0",
    
   },
   description: {

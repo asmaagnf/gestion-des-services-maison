@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { ImProfile } from "react-icons/im";
@@ -12,20 +12,26 @@ const Becomepro = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [adresse, setadresse] = useState('');
+  const [code_postal, setcode_postal] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3003/users/pro', {
+      const response = await axios.post('http://localhost:3001/users/pro', {
         username,
         email,
-        password
+        password,
+        adresse,
+        code_postal,
       });
 
       console.log('Registration successful:', response.data);
       toast.success(response.data);
+      navigate("/login");
     
     } catch (error) {
       console.error('Error registering user:', error);
@@ -46,6 +52,14 @@ const Becomepro = () => {
           <label>
             Email* :
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </label>
+          <label>
+           Adresse :
+          <input type="text" value={adresse} onChange={(e) => setadresse(e.target.value)} />
+          </label>
+          <label>
+           Code postale :
+          <input type="number" value={code_postal} onChange={(e) => setcode_postal(e.target.value)} />
           </label>
           <label>
             Password* :

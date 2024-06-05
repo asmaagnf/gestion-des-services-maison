@@ -1,0 +1,78 @@
+/* Styles for the chat container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Styles for the messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for each individual message */
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 25%;
+  
+}
+
+/* Styles for sent messages */
+.message.sent {
+  background-color: #DCF8C6; 
+  align-self: flex-end;
+  margin: 20px;
+  width: 25%;
+}
+
+/* Styles for received messages */
+.message.received {
+  background-color: #ECECEC; 
+  margin: 20px;
+}
+
+
+/* Styles for the username */
+.username {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Styles for the input container */
+.input-container {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: 30px;
+ margin-bottom: 30px;
+}
+
+/* Styles for the input field */
+.input-container input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-right: 10px;
+ min-width: 500px;
+}
+
+/* Styles for the send button */
+.input-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Hover effect for the send button */
+.input-container button:hover {
+  background-color: #0056b3; 
+}

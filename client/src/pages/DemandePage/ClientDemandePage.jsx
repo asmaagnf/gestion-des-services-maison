@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const ClientDemandePage = () => {
   const [demands, setDemands] = useState([]);
@@ -35,14 +36,14 @@ const ClientDemandePage = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nom du Professionnel</th>
-            <th>Service Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Adresse</th>
-            <th>Taille</th>
-            
-            {/* Add more headers as needed */}
+            <th>NOM DU PROFESSIONNEL</th>
+            <th>NOM DE SERVICE</th>
+            <th>DESCRIPTION</th>
+            <th>ADRESSE</th>
+            <th>TAILLE DE SERVICE</th>
+            <th>STATUS</th>
+            <th>DATE DE DEMANDE</th>
+            <th>Envoyer le message</th>
           </tr>
         </thead>
         <tbody>
@@ -50,13 +51,25 @@ const ClientDemandePage = () => {
             <tr key={demand.id}>
               <td>{demand.id}</td>
               <td>{demand.Service.user.username}</td>
-              <td>{demand.Service.title}</td>
+              <td>
+                {demand.status === 'complété' ? (
+                  <Link to={`/service/${demand.Service.id}`}>{demand.Service.title}</Link>
+                ) : (
+                  demand.Service.title
+                )}
+              </td>
               <td>{demand.description}</td>
-              <td>{demand.status}</td>
               <td>{demand.adresse}</td>
               <td>{demand.taille}</td>
-              
-              {/* Add more cells as needed */}
+              <td>  {demand.status === 'complété' ? (
+                  <Link to={`/service/${demand.Service.id}`} style={{color: "green"}}>{demand.status}</Link>
+                ) : (
+                  demand.status
+                )}</td>
+              <td>{new Date(demand.createdAt).toLocaleDateString()}</td>
+              <td>
+                <Link to={`/client/chat/${demand.chatRoomId}`}>Message</Link>
+              </td>
             </tr>
           ))}
         </tbody>

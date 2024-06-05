@@ -1,8 +1,15 @@
 import "./Hero.css";
 import CountUp from "react-countup";
+import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
-import SearchBar from "../SearchBar/SearchBar";
+import GeneralSearchBar from "../SearchBar/GeneralSearchBar";
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleSearch = (titleFilter, addressFilter) => {
+    // Navigate to the services page with query parameters
+    navigate(`/service?title=${titleFilter}&address=${addressFilter}`);
+  };
   return (
     <section className="hero-wrapper">
       <div className="paddings innerWidth flexCenter hero-container">
@@ -30,7 +37,7 @@ const Hero = () => {
             <span>proposant des travaux de rénovation domiciliaire dans votre région.</span>
           </div>
 
-          <SearchBar/>
+          <GeneralSearchBar onSearch={handleSearch} />
 
           <div className="flexCenter stats">
             <div className="flexColCenter stat">

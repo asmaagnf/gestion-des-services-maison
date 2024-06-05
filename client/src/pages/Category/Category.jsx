@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PuffLoader } from "react-spinners";
 import { getCategoryData, getSubcategoryData } from '../../utils/api';
 import { BsArrowRight } from 'react-icons/bs';
-import SearchBar from "../../components/SearchBar/SearchBar";
+import GeneralSearchBar from "../../components/SearchBar/GeneralSearchBar";
+import "./Category.css";
 
 // Fonction utilitaire pour formater l'URL de l'image
 const getImageUrl = (imagePath) => {
@@ -19,6 +20,12 @@ const Category = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSearch = (titleFilter, addressFilter) => {
+    // Navigate to the services page with query parameters
+    navigate(`/service?title=${titleFilter}&address=${addressFilter}`);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -121,7 +128,7 @@ const Category = () => {
         />
         <div style={headerTextStyle}>
           Votre tâche, c'est notre mission
-          <SearchBar/>
+          <GeneralSearchBar onSearch={handleSearch} />
         </div>
       </div>
       <div className="wrapper paddings" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

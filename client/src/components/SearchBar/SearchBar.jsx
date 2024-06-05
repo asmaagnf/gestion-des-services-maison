@@ -1,20 +1,28 @@
-import React from 'react'
-import { HiLocationMarker } from 'react-icons/hi'
+import React from 'react';
+import { HiLocationMarker } from 'react-icons/hi';
+import { IoMdSearch } from "react-icons/io";
 
-const SearchBar = ({ filter, setFilter }) => {
+const SearchBar = ({ titleFilter, setTitleFilter, addressFilter, setAddressFilter }) => {
+  
   return (
     <div className="flexCenter search-bar">
-    <HiLocationMarker color="var(--blue)" size={25} />
-    <input
-      placeholder="Recherche par titre/ville/pays"
-      type="text"
-      value={filter}
-      onChange={(e) => setFilter(e.target.value)}
-    />
-    <button className="button">Search</button>
-  </div>
-    
-  )
-}
+      <IoMdSearch   color="var(--blue)" size={50} />
+      <input
+        placeholder="Recherche par titre"
+        type="text"
+        value={titleFilter}
+        onChange={(e) => setTitleFilter(e.target.value)}
+      />
+      <HiLocationMarker color="var(--blue)" size={50} />
+      <input
+        placeholder="Adresse"
+        type="text"
+        value={addressFilter}
+        onChange={(e) => setAddressFilter(e.target.value)}
+      />
+      <button className="button">Cherche</button>
+    </div>
+  );
+};
 
-export default SearchBar
+export default SearchBar;

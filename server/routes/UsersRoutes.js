@@ -29,7 +29,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Create user account with provided details and role 'client'
 router.post('/', upload.single('image'), async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, adresse, code_postal } = req.body;
   const mainImagePath = req.file ? req.file.path : null;
 
   try {
@@ -38,6 +38,8 @@ router.post('/', upload.single('image'), async (req, res) => {
     await users.create({
       username,
       email,
+      adresse,
+      code_postal,
       password: hash,
       image: mainImagePath,
       role: 'client'
@@ -52,7 +54,7 @@ router.post('/', upload.single('image'), async (req, res) => {
 
 // Add user
 router.post('/adduser', async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const { username, email, password, role, adresse, code_postal } = req.body;
 
   try {
     const hash = await bcrypt.hash(password, 10);
@@ -60,6 +62,8 @@ router.post('/adduser', async (req, res) => {
     await users.create({
       username,
       email,
+      adresse,
+      code_postal,
       password: hash,
       role
     });
@@ -73,7 +77,7 @@ router.post('/adduser', async (req, res) => {
 
 // Create user account with provided details and role 'pro'
 router.post('/pro', upload.single('image'), async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, adresse, code_postal } = req.body;
   const mainImagePath = req.file ? req.file.path : null;
 
   try {
@@ -82,6 +86,8 @@ router.post('/pro', upload.single('image'), async (req, res) => {
     await users.create({
       username,
       email,
+      adresse,
+      code_postal,
       password: hash,
       image: mainImagePath,
       role: 'pro'
@@ -146,7 +152,7 @@ router.get('/:id', async (req, res) => {
 // Update user by ID
 router.put('/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
-    const { username, email, role } = req.body;
+    const { username, email, role, adresse, code_postal } = req.body;
   
     try {
       const user = await users.findByPk(id);
@@ -163,7 +169,9 @@ router.put('/:id', upload.single('image'), async (req, res) => {
   
       user.username = username || user.username;
       user.email = email || user.email;
-      user.role = role || user.role;  // Ensure role is not null
+      user.adresse = adresse || user.adresse;
+      user.code_postal = code_postal || user.code_postal;
+      user.role = role || user.role;  
       user.image = mainImagePath;
   
       await user.save();

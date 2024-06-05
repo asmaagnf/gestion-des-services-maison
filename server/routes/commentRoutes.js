@@ -1,45 +1,74 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../models');
+const { Comment, Service, users } = require('../models');
+const { validateToken } = require('../Middleware/authMiddleware');
 
-// Récupérer les commentaires d'un service par son ID
-router.get('/service/:serviceId', async (req, res) => {
-    try {
-        const { serviceId } = req.params;
+// Create a new comment
+router.post('/create',  async (req, res) => {
+  try {
+    const { text, rating, ServiceId, UserId } = req.body;
 
-        const comments = await db.Comment.findAll({
-            where: { ServiceId: serviceId }
-        });
-
-        res.status(200).json(comments);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server Error' });
+    if (!ServiceId || !UserId || !text || !rating) {
+      return res.status(400).send("All fields are required.");
     }
+
+    const service = await Service.findByPk(ServiceId);
+    const user = await users.findByPk(UserId);
+
+    if (!service || !user) {
+      return res.status(404).send("Service or User not found.");
+    }
+
+    const newComment = await Comment.create({
+      text,
+      rating,
+      ServiceId: service.id,
+      UserId: user.id,
+    });
+
+    return res.status(201).json(newComment);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
 });
 
-// Ajouter un commentaire à un service
-router.post('/:serviceId', async (req, res) => {
-    try {   
-        const { serviceId } = req.params;
-        const { text } = req.body;
+// Get all comments for a service
+router.get('/service/:ServiceId', async (req, res) => {
+  try {
+    const { ServiceId } = req.params;
 
-        const service = await db.Service.findByPk(serviceId);
-        if (!service) {
-            return res.status(404).json({ message: "Service not found" });
-        }
+    const comments = await Comment.findAll({
+      where: { ServiceId },
+      include: [
+        { model: users, as: 'user', attributes: ['username'] },
+      ],
+    });
 
-        const comment = await db.Comment.create({
-            text,
-            ServiceId: serviceId,
-            //UserId: req.user.id // Utilisateur qui a fait le commentaire
-        });
+    return res.status(200).json(comments);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+});
 
-        res.status(201).json(comment);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server Error' });
-    }
+// Get all comments by a user
+router.get('/user/:UserId', async (req, res) => {
+  try {
+    const { UserId } = req.params;
+
+    const comments = await Comment.findAll({
+      where: { UserId },
+      include: [
+        { model: Service, as: 'service', attributes: ['title'] },
+      ],
+    });
+
+    return res.status(200).json(comments);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
 });
 
 module.exports = router;

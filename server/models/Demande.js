@@ -10,8 +10,8 @@ const Demande = sequelize.define('Demande', {
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM('pending', 'in-progress', 'completed'),
-        defaultValue: 'pending',
+        type: DataTypes.ENUM('en cours', 'refusé', 'complété'),
+        defaultValue: 'en cours',
         allowNull: false,
       },
       adresse: {
@@ -26,6 +26,8 @@ const Demande = sequelize.define('Demande', {
       Demande.associate = (models) => {
         Demande.belongsTo(models.Service); 
         Demande.belongsTo(models.users, { foreignKey: 'userId' });
-      };
+        Demande.hasMany(models.Message);
+    Demande.belongsTo(models.ChatRoom, { foreignKey: 'chatRoomId' });
+  };
   return Demande;
 };

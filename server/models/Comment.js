@@ -1,21 +1,29 @@
-// Server/models/Comment.js
 module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define('Comment', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+      text: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      rating: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          min: 1,
+          max: 5,
         },
-        text: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        }
+      },
     });
-
+  
     Comment.associate = (models) => {
-        Comment.belongsTo(models.Service, { foreignKey: 'ServiceId' }); // Un commentaire appartient à un service
-        Comment.belongsTo(models.users, { foreignKey: 'UserId' }); // Un commentaire est écrit par un utilisateur
+      Comment.belongsTo(models.Service, {
+        foreignKey: 'ServiceId',
+        as: 'service',
+      });
+      Comment.belongsTo(models.users, {
+        foreignKey: 'UserId',
+        as: 'user',
+      });
     };
-
+  
     return Comment;
-};
+  };

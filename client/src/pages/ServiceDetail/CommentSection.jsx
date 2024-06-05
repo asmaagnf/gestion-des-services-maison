@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
+import { FaStar } from 'react-icons/fa';
 
 const CommentSectionContainer = styled.div`
   width: 100%;
@@ -90,29 +91,43 @@ const CommentDate = styled.span`
   font-style: italic;
 `;
 
+const StarRatingDisplay = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Star = styled(FaStar)`
+  color: ${({ selected }) => (selected ? '#FFD700' : '#ddd')};
+`;
+
 const CommentSection = ({ comments, comment, handleCommentChange, handleSubmitComment }) => {
   return (
     <CommentSectionContainer>
       <CommentInput
         id="standard-textarea"
-        label="Comment"
+        label="Commentaires"
         placeholder="Ecris ton commentaire"
         multiline
         variant="standard"
         value={comment}
         onChange={handleCommentChange}
       />
-      <SubmitButton onClick={handleSubmitComment}>Submit</SubmitButton>
-      <CommentHeader>Comments:</CommentHeader>
+      <SubmitButton onClick={handleSubmitComment}>Soumettre</SubmitButton>
+      <CommentHeader>Commentaires:</CommentHeader>
       {comments &&
         comments.map((comment) => (
           <CommentContainer key={comment.id}>
             <FlexStart>
-              <UserAvatar>UA</UserAvatar>
+              <UserAvatar>{comment.user.username.charAt(0)}</UserAvatar>
               <CommentDetails>
+                <CommentUser>{comment.user.username}</CommentUser>
                 <CommentText>{comment.text}</CommentText>
+                <StarRatingDisplay>
+                  {[...Array(5)].map((_, index) => (
+                    <Star key={index} size={20} selected={index < comment.rating} />
+                  ))}
+                </StarRatingDisplay>
                 <CommentFooter>
-                  <CommentUser>{comment.UserId}</CommentUser>
                   <CommentDate>{new Date(comment.createdAt).toLocaleDateString()}</CommentDate>
                 </CommentFooter>
               </CommentDetails>
@@ -121,6 +136,6 @@ const CommentSection = ({ comments, comment, handleCommentChange, handleSubmitCo
         ))}
     </CommentSectionContainer>
   );
-}
+};
 
 export default CommentSection;

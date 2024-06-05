@@ -5,6 +5,10 @@ import Avatar from "../../components/Avatar";
 import { jwtDecode } from "jwt-decode";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import { toast } from "react-toastify";
+import { MdOutlineMail } from "react-icons/md";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ClientProfile = () => {
   const [user, setUser] = useState(null);
@@ -14,7 +18,9 @@ const ClientProfile = () => {
   const [email, setEmail] = useState('');
   const [image, setImage] = useState(null);
   const [password, setPassword] = useState('');
+  const [adresse, setadresse] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,6 +33,7 @@ const ClientProfile = () => {
         setUser(response.data);
         setUsername(response.data.username);
         setEmail(response.data.email);
+        setadresse(response.data.adresse);
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -45,6 +52,7 @@ const ClientProfile = () => {
       const formData = new FormData();
       formData.append('username', username);
       formData.append('email', email);
+      formData.append('adresse', adresse);
   
       if (image) {
         formData.append('image', image);
@@ -84,13 +92,19 @@ const ClientProfile = () => {
     }
 };
 
+const handleLogout = () => {
+  localStorage.clear();
+  navigate("/", { replace: true });
+};
+
   const handleDeleteUser = async () => {
     try {
       const token = localStorage.getItem('token');
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.id;
       await axios.delete(`http://localhost:3001/users/${userId}`);
-      alert('User deleted successfully!');
+      alert('Utilisateur supprimé avec succès!');
+      handleLogout();
       // Add logout logic here
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -98,10 +112,7 @@ const ClientProfile = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/", { replace: true });
-  };
+ 
 
   if (!user) {
     return <div>Loading...</div>;
@@ -129,8 +140,9 @@ const ClientProfile = () => {
                 <Avatar style={styles.avatarImage} />
               </div>
               <div style={styles.accountDetails}>
-                <p><i className="fas fa-user"></i> {user.username}</p>
-                <p><i className="fas fa-envelope"></i> {user.email}</p>
+                <p><FaRegUser />  {user.username}</p>
+                <p><MdOutlineMail />  {user.email}</p>
+                <p><MdOutlineLocationOn />  {user.adresse}</p>
               </div>
             </div>
             <button style={styles.logoutButton} onClick={handleLogout}>Se Déconnecter</button>
@@ -140,12 +152,14 @@ const ClientProfile = () => {
       <Footer />
 
       {/* Edit User Modal */}
-      <CustomModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit User">
+      <CustomModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Modifier vos informations">
         <div className="add-user-form">
           <label>Username:</label><br/>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} /><br/>
           <label>Email:</label><br/>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br/>
+          <label>Adresse:</label><br/>
+          <input type="text" value={adresse} onChange={(e) => setadresse(e.target.value)} /><br/>
           <div>
           <label className="form-label">Photo actuelle:</label>
           <img src={`http://localhost:3001/${user?.image}`} alt="photo" className="current-image" />

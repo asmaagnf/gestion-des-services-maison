@@ -108,3 +108,13 @@ export const fetchUserdemandeCount = async (userId) => {
   }
 };
 
+export const fetchDemandeStatusCounts = async (userId) => {
+  try {
+    const response = await api.get(`/demande/status-counts/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching demande status counts:', error);
+    throw new Error('Failed to fetch demande status counts');
+  }
+};
+

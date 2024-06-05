@@ -31,6 +31,7 @@ import ClientProfile from "./pages/ClientInterface/ClientProfile";
 import ProDemandePage from "./pages/DemandePage/ProDemandePage";
 import ClientDemandePage from "./pages/DemandePage/ClientDemandePage";
 import AddReclamation from "./components/AddReclamation/AddReclamation";
+import MessageContainer from "./components/Messages/MessageContainer";
 
 function App() {
   const queryClient = new QueryClient();
@@ -66,10 +67,6 @@ function App() {
           <Route path="/404" element={<Page404 />} />
 
           
-          
-       
-          
-
 <Route element={<ClientdachLayout/>}>
           <Route
         path="/client-interface"
@@ -90,6 +87,7 @@ function App() {
           <Route path="/ClientProfile" element={<ClientProfile/>} />
           <Route path="client-interface/demande" element={<ClientDemandePage/>} />
           <Route path="/client-interface/reclamation" element={<AddReclamation/>} />
+        <Route path="client/chat/:chatRoomId"  element={<MessageContainer/>} />
 
  </Route> 
 
@@ -120,6 +118,7 @@ function App() {
    <Route path="/pro-interface/reclamation" element={<AddReclamation/>} />
    <Route path="/pro-interface/Demande"   element={<ProDemandePage/>} />
    <Route path="/pro-interface/Profile" element={<ClientProfile/>} />
+   <Route path="pro/chat/:chatRoomId"  element={<MessageContainer/>} />
 </Route>
 
 

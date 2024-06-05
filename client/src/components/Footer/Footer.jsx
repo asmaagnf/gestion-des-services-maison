@@ -1,61 +1,92 @@
-import React from "react";
+import { React, useEffect } from "react";
 import "./Footer.css";
-import AddReclamation from "../AddReclamation/AddReclamation";
-
-// Import social media icons from Material-UI
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { GrLanguage } from "react-icons/gr";
 
 const Footer = () => {
-  return (
-    <div className="f-wrapper">
-      <div className="paddings innerWidth flexCenter f-container">
-        {/* left side */}
-        <div className="flexColStart f-left">
-          <img src="../../public/logo2.png" alt="Logo" width={120} />
-          <span className="secondaryText">
-            © Maroc 2024
-          </span>
-        </div>
-        
-        {/* center side */}
-        <div className="flexColStart">
-          <span className="primaryText">Information</span>
-          <span className="secondaryText">145 Casablanca, Maroc</span>
-          <div className="flexCenter f-menu">
-            <div className="f-menu-column">
-              <span>Services</span>
-              <span>Privacy Policy</span>
-            </div>
-            <div className="f-menu-column">
-              <span>Terms of Use</span>
-              <span>About Us</span>
-            </div>
-          </div>
-        </div>
 
-        {/* right side (combined Follow Us and Contact Us) */}
-        <div className="flexColStart ">
-          <div className="flexColStart f-follow-contact">
-            
-            <span className="primaryText">Contact Us</span>
-            <span className="se">Email : contact@homyz.com</span>
-            <span className="se">Phone : 0522009112</span>
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  return (
+    <div className='footer'>
+      <div className="container-f">
+      <hr />
+        <div className="top">
+          <div className="item">
+            <h1>Categories</h1>
+            <span>Services de Design</span>
+            <span>Décoration Intérieure</span>
+            <span>Services de Sécurité</span>
+            <span>Services de Jardinage </span>
+            <span>Réparation et Installation d'Appareils</span>
+            <span>Services de Maintenance</span>
+            <span>Services de Nettoyage</span>
+            <span>Service d'Automatisation Domiciliaire</span>
           </div>
-           </div>
-           <div className="flexColStart f-right">
-           <span className="primaryText">Follow Us</span>
-            <div className="flexCenter f-socials ">
-              <a href="#"><FacebookIcon style={{ color: 'Blue', fontSize: 24 }} /></a>
+        <div className="item">
+           <h1>À propos</h1>
+           <span>Carrières</span>
+           <span>Presse et actualités</span>
+           <span>Partenariat</span>
+           <span>Politique de confidentialité</span>
+           <span>Conditions d'utilisation</span>
+           <span>Réclamations en matière de propriété intellectuelle</span>
+           <span>Relations avec les investisseurs</span>
+          </div>
+          <div className="item">
+           <h1>Assistance</h1>
+           <span>Aide et support</span>
+           <span>Confiance et sécurité</span>
+           <span>Homyz Pro</span>
+           <span>Homyz Client</span>
+          </div>
+          <div className="item">
+           <h1>Communauté</h1>
+           <span>Événements</span>
+           <span>Blog</span>
+           <span>Forum</span>
+           <span>Normes communautaires</span>
+           <span>Podcast</span>
+           <span>Affiliés</span>
+          </div>
+          <div className="item">
+           <h1>Plus de Homyz</h1>
+           <span>Homyz Entreprise</span>
+           <span>Homyz Pro</span>
+           <span>Homyz Studios</span>
+           <span>Guilde Homyz</span>
+           <span>Homyz Sélect</span>
+           <span>Homyz Espace de travail </span>
+           <span>Apprendre</span>
+          </div>
+        </div>
+        <hr />
+        <div className="bottom">
+          <div className="left">
+            <img src="../../public/logo2.png" alt="Logo" width={120} />
+            <span>© Homyz International Ltd. {new Date().getFullYear()}</span>
+          </div>
+          <div className="right">
+            <div className="social">
+               <a href="#"><FacebookIcon style={{ color: 'Blue', fontSize: 24 }} /></a>
               <a href="#"><TwitterIcon style={{ color: 'Blue', fontSize: 24 }} /></a>
               <a href="#"><InstagramIcon style={{ color: 'Tomato', fontSize: 24 }} /></a>
             </div>
+            <div className="link">
+              <GrLanguage />
+              <span>Français</span>
             </div>
-        
-      </div>
+         
+          </div>
+        </div>
+      
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Footer;
+export default Footer

@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         Service.hasMany(models.ServiceImage, {  onDelete: "CASCADE" });
         Service.hasMany(models.Demande);
         Service.belongsTo(models.users); 
+        Service.hasMany(models.Comment, { foreignKey: 'ServiceId', as: 'comments' });
       
     };
 
